@@ -1,7 +1,7 @@
 let logo;
 
 function preload() {
-  //logo = loadImage("assets/logo.png");
+  logo = loadImage("assets/logo.png");
 }
 
 function setup() {
