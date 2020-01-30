@@ -13,14 +13,6 @@ function draw() {
   image(logo, windowWidth / 2 - (min(windowWidth, windowHeight) / 2), windowHeight / 2 - (min(windowWidth, windowHeight) / 2), min(windowWidth, windowHeight), min(windowWidth, windowHeight));
 }
 
-function mousePressed() {
-  background(255);
-  for (let i = 0; i < Object.keys(data).length; i++) {
-    let property = data[Object.keys(data)[i]];
-  }
-  console.log(data);
-}
-
 let data = {};
 let firebase = new Firebase('https://roomonitor-4e09e.firebaseio.com');
 firebase.on('child_added', function (snapshot) {
