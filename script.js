@@ -41,14 +41,12 @@ function draw() {
   cursor("crosshair");
   background(255);
   image(assets[1], 0, 0);
-  if (mouseIsPressed) {
-    [rects[rects.length - 1][2], rects[rects.length - 1][3]] = [mouseX - rects[rects.length - 1][0], mouseY - rects[rects.length - 1][1]];
-  }
   noFill();
   stroke(255, 0, 0);
   strokeWeight(1);
   for (let i = 0; i < rects.length; i++) {
     rect(...rects[i]);
+    text(i, rects[i][0] + (rects[i][2] / 2), rects[i][1] + (rects[i][3] / 2));
   }
 }
 
