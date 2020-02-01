@@ -8,90 +8,97 @@ let keys = [];
 let rooms = {
   "Chat": {
     "rects": [
-      [255, 0, 190, 95]
+      [55, 0, 190, 95]
     ]
   },
   "Ideate": {
     "rects": [
-      [450, 0, 190, 95]
+      [250, 0, 190, 95]
     ]
   },
   "Make": {
     "rects": [
-      [645, 0, 105, 95],
-      [660, 95, 105, 120]
+      [445, 0, 110, 95],
+      [460, 95, 95, 120]
     ]
   },
   "Library": {
     "rects": [
-      [660, 220, 95, 175]
+      [460, 220, 95, 175]
     ]
   },
   "Cafe Corner": {
     "rects": [
-      [660, 400, 90, 105]
+      [460, 400, 95, 115]
     ]
   },
   "Independence": {
     "rects": [
-      [655, 520, 95, 200],
-      [650, 575, 5, 145]
+      [460, 520, 95, 200],
+      [450, 575, 10, 145]
     ]
   },
   "Develop": {
     "rects": [
-      [325, 145, 105, 125],
-      [275, 270, 155, 50]
+      [125, 145, 105, 125],
+      [75, 270, 155, 50]
     ]
   },
   "Discover": {
     "rects": [
-      [200, 330, 200, 120]
+      [0, 325, 205, 120]
     ]
   },
   "Head Office": {
     "rects": [
-      [200, 450, 80, 65]
+      [0, 450, 85, 70]
     ]
   },
   "Connect": {
     "rects": [
-      [290, 455, 35, 30]
+      [90, 450, 40, 30]
     ]
   },
   "Curate": {
     "rects": [
-      [200, 525, 80, 65]
+      [0, 525, 85, 70]
     ]
   },
   "Communication": {
     "rects": [
-      [325, 590, 35, 45]
+      [125, 585, 40, 50]
     ]
   },
   "Coach": {
     "rects": [
-      [370, 585, 60, 80]
+      [170, 585, 60, 80]
     ]
   },
   "Mentor": {
     "rects": [
-      [435, 585, 60, 80]
+      [235, 585, 65, 80]
     ]
   },
   "Create": {
     "rects": [
-      [505, 585, 75, 60]
+      [305, 585, 75, 65]
     ]
   },
   "Explore": {
     "rects": [
-      [505, 655, 75, 65]
+      [305, 655, 75, 65]
     ]
   },
   "Commons": {
     "rects": [
-      [0, 0, 0, 0]
+      [125,100,330,40],
+      [235,140,220,185],
+      [210,325,245,125],
+      [135,450,320,35],
+      [90,485,365,85],
+      [90,570,30,30],
+      [120,570,325,10],
+      [385,580,60,140]
     ]
   },
 };
@@ -107,18 +114,29 @@ function setup() {
 
 function draw() {
   cursor("crosshair");
-  background(255);
-  image(assets[1], 0, 0);
-  noFill();
-  stroke(255, 0, 0);
-  strokeWeight(1);
+  background(51);
+  //image(assets[1], 0, 0);
+  noStroke();
+  textAlign(CENTER, CENTER);
   for (let i = 0; i < Object.keys(rooms).length; i++) {
     let key = Object.keys(rooms)[i];
+    let x = 0;
+    let y = 0;
+    let sum = 0;
     for (let j = 0; j < rooms[key].rects.length; j++) {
-      let roomRect = rooms[key].rects[j]
+      let roomRect = rooms[key].rects[j];
+      colorMode(HSB);
+      fill((i / Object.keys(rooms).length * 360), 60, 100);
+      colorMode(RGB);
       rect(...roomRect);
-      text(key, roomRect[0] + roomRect[2] / 2, roomRect[1] + roomRect[3] / 2);
+      sum += roomRect[2] * roomRect[3];
+      x += (roomRect[0] + roomRect[2] / 2) * (roomRect[2] * roomRect[3]);
+      y += (roomRect[1] + roomRect[3] / 2) * (roomRect[2] * roomRect[3]);
     }
+    x /= sum;
+    y /= sum;
+    fill(51);
+    text(key, x, y);
   }
 }
 
