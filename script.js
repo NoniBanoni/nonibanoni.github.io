@@ -1,8 +1,32 @@
-// Variables
+// Core Variables
 let assets = [];
 let database = {};
 let firebase = new Firebase('https://roomonitor-4e09e.firebaseio.com');
-let rects = [];
+let keys = [];
+
+// Other Variables
+let rects =
+  [
+    [254, 0, 189, 96],
+    [449, 0, 191, 93],
+    [646, 0, 106, 93],
+    [657, 93, 95, 120],
+    [657, 219, 95, 173],
+    [660, 402, 91, 105],
+    [655, 520, 96, 199],
+    [649, 576, 6, 143],
+    [325, 146, 104, 125],
+    [276, 271, 153, 50],
+    [203, 328, 202, 118],
+    [203, 452, 82, 67],
+    [292, 453, 37, 29],
+    [202, 526, 82, 67],
+    [327, 588, 34, 47],
+    [368, 586, 62, 80],
+    [437, 586, 61, 80],
+    [505, 586, 73, 61],
+    [505, 653, 74, 66],
+  ];
 
 function preload() {
   assets[0] = loadImage("assets/Floor Plan.jpg");
@@ -26,10 +50,6 @@ function draw() {
   for (let i = 0; i < rects.length; i++) {
     rect(...rects[i]);
   }
-}
-
-function mousePressed() {
-  rects.push([mouseX, mouseY, 0, 0]);
 }
 
 // Realtime database updates
