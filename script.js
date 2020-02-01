@@ -7,108 +7,12 @@ let fonts = [];
 
 // Other Variables
 let scale = 1.5;
-let rooms = {
-  "Chat": {
-    "rects": [
-      [55, 0, 190, 95]
-    ]
-  },
-  "Ideate": {
-    "rects": [
-      [250, 0, 190, 95]
-    ]
-  },
-  "Make": {
-    "rects": [
-      [445, 0, 110, 95],
-      [460, 95, 95, 120]
-    ]
-  },
-  "Library": {
-    "rects": [
-      [460, 220, 95, 175]
-    ]
-  },
-  "Cafe Corner": {
-    "rects": [
-      [460, 400, 95, 115]
-    ]
-  },
-  "Independence": {
-    "rects": [
-      [460, 520, 95, 55],
-      [450, 575, 105, 145]
-    ]
-  },
-  "Develop": {
-    "rects": [
-      [125, 145, 105, 125],
-      [75, 270, 155, 50]
-    ]
-  },
-  "Discover": {
-    "rects": [
-      [0, 325, 205, 120]
-    ]
-  },
-  "Head Office": {
-    "rects": [
-      [0, 450, 85, 70]
-    ]
-  },
-  "Connect": {
-    "rects": [
-      [90, 450, 40, 30]
-    ]
-  },
-  "Curate": {
-    "rects": [
-      [0, 525, 85, 70]
-    ]
-  },
-  "Communication": {
-    "rects": [
-      [125, 585, 40, 50]
-    ]
-  },
-  "Coach": {
-    "rects": [
-      [170, 585, 60, 80]
-    ]
-  },
-  "Mentor": {
-    "rects": [
-      [235, 585, 65, 80]
-    ]
-  },
-  "Create": {
-    "rects": [
-      [305, 585, 75, 65]
-    ]
-  },
-  "Explore": {
-    "rects": [
-      [305, 655, 75, 65]
-    ]
-  },
-  "Commons": {
-    "rects": [
-      [125, 100, 330, 40],
-      [235, 140, 220, 185],
-      [210, 325, 245, 125],
-      [135, 450, 320, 35],
-      [90, 485, 365, 85],
-      [90, 570, 30, 25],
-      [120, 570, 325, 10],
-      [385, 580, 60, 140]
-    ]
-  },
-};
+let rooms = {};
 
 function preload() {
   assets[0] = loadImage("assets/Floor Plan.jpg");
   assets[1] = loadImage("assets/Floor Plan Simple.jpg");
-  fonts[0] = loadFont("assets/fonts/Montserrat-Black.ttf");
+  fonts[0] = loadFont("assets/fonts/Montserrat-Light.ttf");
 }
 
 function setup() {
@@ -139,9 +43,8 @@ function displayRooms() {
       if (x > roomRect[0] && y > roomRect[1] && x < roomRect[0] + roomRect[2] && y < roomRect[1] + roomRect[3]) {
         fill(51);
         textSize(1);
-        textSize(roomRect[2] / textWidth(key.toUpperCase()) * scale * 0.75);
-        textLeading(10);
-        text(key.toUpperCase(), (roomRect[0] + roomRect[2] / 2) * scale, y * scale);
+        textSize(roomRect[2] / textWidth(key) * scale * 0.75);
+        text(key, (roomRect[0] + roomRect[2] / 2) * scale, y * scale);
       }
     }
   }
@@ -149,18 +52,31 @@ function displayRooms() {
 
 function draw() {
   background(51);
-  displayRooms();
+  if (Object.keys(database).length == 0) {
+    fill(255);
+    textFont(fonts[0]);
+    textAlign(CENTER, CENTER);
+    text("FETCHING DATA...", width / 2, height / 2);
+    return;
+  } else {
+    rooms = database.rooms;
+    displayRooms();
+    print(database);
+  }
 }
 
 // Realtime database updates
 firebase.on('child_added', function (snapshot) {
-  database[snapshot.val().id] = json;
+  let json = snapshot.val();
+  database[json.id] = json;
 });
 firebase.on('child_changed', function (snapshot) {
-  database[snapshot.val().id] = json;
+  let json = snapshot.val();
+  database[json.id] = json;
 });
 firebase.on('child_removed', function (snapshot) {
-  delete data[snapshot.val().id];
+  let json = snapshot.val();
+  delete database[json.id];
 });
 
 // Database edit functions
