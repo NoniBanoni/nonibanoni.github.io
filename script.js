@@ -7,90 +7,90 @@ let keys = [];
 // Other Variables
 let rooms = {
   "Chat": {
-    "Rects": [
+    "rects": [
       [255, 0, 190, 95]
     ]
   },
   "Ideate": {
-    "Rects": [
+    "rects": [
       [450, 0, 190, 95]
     ]
   },
   "Make": {
-    "Rects": [
+    "rects": [
       [646, 0, 106, 93],
       [657, 93, 95, 120]
     ]
   },
   "Library": {
-    "Rects": [
+    "rects": [
       [657, 219, 95, 173]
     ]
   },
   "Cafe Corner": {
-    "Rects": [
+    "rects": [
       [660, 402, 91, 105]
     ]
   },
   "Independence": {
-    "Rects": [
+    "rects": [
       [655, 520, 96, 199],
       [649, 576, 6, 143]
     ]
   },
   "Develop": {
-    "Rects": [
+    "rects": [
       [325, 146, 104, 125],
       [276, 271, 153, 50]
     ]
   },
   "Discover": {
-    "Rects": [
+    "rects": [
       [203, 328, 202, 118]
     ]
   },
   "Head Office": {
-    "Rects": [
+    "rects": [
       [203, 452, 82, 67]
     ]
   },
   "Connect": {
-    "Rects": [
+    "rects": [
       [292, 453, 37, 29]
     ]
   },
   "Curate": {
-    "Rects": [
+    "rects": [
       [202, 526, 82, 67]
     ]
   },
   "Communication": {
-    "Rects": [
+    "rects": [
       [327, 588, 34, 47]
     ]
   },
   "Coach": {
-    "Rects": [
+    "rects": [
       [368, 586, 62, 80]
     ]
   },
   "Mentor": {
-    "Rects": [
+    "rects": [
       [437, 586, 61, 80]
     ]
   },
   "Create": {
-    "Rects": [
+    "rects": [
       [505, 586, 73, 61]
     ]
   },
   "Explore": {
-    "Rects": [
+    "rects": [
       [505, 653, 74, 66]
     ]
   },
   "Commons": {
-    "Rects": [
+    "rects": [
       [0, 0, 0, 0]
     ]
   },
