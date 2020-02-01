@@ -140,6 +140,7 @@ function displayRooms() {
         fill(51);
         textSize(1);
         textSize(roomRect[2] / textWidth(key.toUpperCase()) * scale * 0.75);
+        textLeading(10);
         text(key.toUpperCase(), (roomRect[0] + roomRect[2] / 2) * scale, y * scale);
       }
     }
