@@ -117,7 +117,7 @@ function draw() {
     for (let j = 0; j < rooms[key].rects.length; j++) {
       let roomRect = rooms[key].rects[j]
       rect(...roomRect);
-      text(keys, roomRect[0] + roomRect[2] / 2, roomRect[1] + roomRect[3] / 2);
+      text(key, roomRect[0] + roomRect[2] / 2, roomRect[1] + roomRect[3] / 2);
     }
   }
 }
