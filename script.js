@@ -5,6 +5,7 @@ let firebase = new Firebase('https://roomonitor-4e09e.firebaseio.com');
 let keys = [];
 
 // Other Variables
+let mult = 1.5;
 let rooms = {
   "Chat": {
     "rects": [
@@ -96,7 +97,7 @@ let rooms = {
       [210,325,245,125],
       [135,450,320,35],
       [90,485,365,85],
-      [90,570,30,30],
+      [90,570,30,25],
       [120,570,325,10],
       [385,580,60,140]
     ]
@@ -120,15 +121,13 @@ function draw() {
   textAlign(CENTER, CENTER);
   for (let i = 0; i < Object.keys(rooms).length; i++) {
     let key = Object.keys(rooms)[i];
-    let x = 0;
-    let y = 0;
-    let sum = 0;
+    let x = 0, y = 0, sum = 0;
     for (let j = 0; j < rooms[key].rects.length; j++) {
       let roomRect = rooms[key].rects[j];
       colorMode(HSB);
       fill((i / Object.keys(rooms).length * 360), 60, 100);
       colorMode(RGB);
-      rect(...roomRect);
+      rect(roomRect[0] * mult, roomRect[1] * mult, roomRect[2] * mult, roomRect[3] * mult);
       sum += roomRect[2] * roomRect[3];
       x += (roomRect[0] + roomRect[2] / 2) * (roomRect[2] * roomRect[3]);
       y += (roomRect[1] + roomRect[3] / 2) * (roomRect[2] * roomRect[3]);
@@ -136,7 +135,8 @@ function draw() {
     x /= sum;
     y /= sum;
     fill(51);
-    text(key, x, y);
+    textSize(8 * mult);
+    text(key.toUpperCase(), x * mult, y * mult);
   }
 }
 
