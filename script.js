@@ -23,7 +23,7 @@ function displayRooms() {
   textFont(fonts[0]);
   noStroke();
   textAlign(CENTER, CENTER);
-  for (let i = 0; i < Object.keys(rooms).length; i++) {
+  for (let i = 0; i < Object.keys(rooms).length - 1; i++) {
     let key = Object.keys(rooms)[i];
     let x = 0, y = 0, sum = 0;
     for (let j = 0; j < rooms[key].rects.length; j++) {
@@ -61,22 +61,23 @@ function draw() {
   } else {
     rooms = database.rooms;
     displayRooms();
-    print(database);
   }
 }
 
 // Realtime database updates
 firebase.on('child_added', function (snapshot) {
   let json = snapshot.val();
-  database[json.id] = json;
+  database[json.key] = json;
 });
+
 firebase.on('child_changed', function (snapshot) {
   let json = snapshot.val();
-  database[json.id] = json;
+  database[json.key] = json;
 });
+
 firebase.on('child_removed', function (snapshot) {
   let json = snapshot.val();
-  delete database[json.id];
+  delete database[json.key];
 });
 
 // Database edit functions
