@@ -78,7 +78,7 @@ class Rectangle {
   }
 
   mouseOn() {
-    return mouseX > this.x && mouseY > this.y && mouseX < this.x + this.w && mouseY < this.y + this.h;
+    return mouseX >= this.x && mouseY >= this.y && mouseX <= this.x + this.w && mouseY <= this.y + this.h;
   }
 }
 
