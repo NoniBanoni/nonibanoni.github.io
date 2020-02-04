@@ -34,21 +34,40 @@ function databaseLoaded() {
 class Room {
   constructor(rects, name) {
     this.rects = [];
+    this.maxX = 0;
+    this.maxY = 0;
+    this.minX = Infinity;
+    this.minY = Infinity;
+    this.name = name;
     for (let i = 0; i < rects.length; i++) {
       this.rects[i] = new Rectangle(...rects[i]);
+      this.maxX = Math.max(this.maxX, rects[i][0] + rects[i][2]);
+      this.maxY = Math.max(this.maxY, rects[i][1] + rects[i][3]);
+      this.minX = Math.min(this.minX, rects[i][0]);
+      this.minY = Math.min(this.minY, rects[i][1]);
     }
-    this.name = name;
+    this.center = [(this.maxX - this.minX) / 2 + this.minX, (this.maxY - this.minY) / 2 + this.minY];
+    
+    for (let i = 0; i < rects.length; i++) {
+      if (this.rects[i].pointOver(...this.center)) {
+        this.center[0] = this.rects[i].x + this.rects[i].w / 2;
+        //this.center[1] = this.rects[i].y + this.rects[i].h / 2;
+      }
+    }
   }
 
   display() {
     let color = [255];
     for (let i = 0; i < this.rects.length; i++) {
-      if (this.rects[i].mouseOn()) {
+      if (this.rects[i].pointOver(mouseX, mouseY)) {
         color = [255, 100, 100];
       }
     }
     for (let i = 0; i < this.rects.length; i++) {
       this.rects[i].display(true, color, false);
+      fill(51);
+      textAlign(CENTER, CENTER);
+      text(this.name, this.center[0], this.center[1]);
     }
   }
 }
@@ -77,8 +96,8 @@ class Rectangle {
     rect(this.x, this.y, this.w, this.h);
   }
 
-  mouseOn() {
-    return mouseX >= this.x && mouseY >= this.y && mouseX <= this.x + this.w && mouseY <= this.y + this.h;
+  pointOver(x2, y2) {
+    return x2 >= this.x && y2 >= this.y && x2 <= this.x + this.w && y2 <= this.y + this.h;
   }
 }
 
