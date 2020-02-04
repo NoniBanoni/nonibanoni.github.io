@@ -41,7 +41,7 @@ class Room {
 
     for (let i = 0; i < this.rects.length; i++) {
       if (this.rects[i].mouseOn()) {
-        color = [51, 100, 100];
+        color = [255, 100, 100];
       }
     }
 
