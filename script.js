@@ -65,10 +65,10 @@ class Room {
     }
     for (let i = 0; i < this.rects.length; i++) {
       this.rects[i].display(true, color, false);
-      fill(51);
-      textAlign(CENTER, CENTER);
-      text(this.name, this.center[0], this.center[1]);
     }
+    fill(51);
+    textAlign(CENTER, CENTER);
+    text(this.name, this.center[0], this.center[1]);
   }
 }
 
