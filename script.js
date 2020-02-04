@@ -37,11 +37,11 @@ class Room {
   }
 
   display() {
-    let color = [255, 255, 255];
+    let color = [255];
 
     for (let i = 0; i < this.rects.length; i++) {
       if (this.rects[i].mouseOn()) {
-        color = [255, 100, 100];
+        color = [51, 100, 100];
       }
     }
 
@@ -78,37 +78,6 @@ class Rectangle {
     return mouseX > this.x && mouseY > this.y && mouseX < this.x + this.w && mouseY < this.y + this.h;
   }
 }
-
-// function displayRooms() {
-//   textFont(fonts[0]);
-//   noStroke();
-//   textAlign(CENTER, CENTER);
-//   for (let i = 0; i < Object.keys(rooms).length - 1; i++) {
-//     let key = Object.keys(rooms)[i];
-//     let x = 0, y = 0, sum = 0;
-//     for (let j = 0; j < rooms[key].rects.length; j++) {
-//       let roomRect = rooms[key].rects[j];
-//       colorMode(HSB);
-//       fill((i / Object.keys(rooms).length * 360), 50, 100);
-//       colorMode(RGB);
-//       rect(roomRect[0] * scale, roomRect[1] * scale, roomRect[2] * scale, roomRect[3] * scale);
-//       sum += roomRect[2] * roomRect[3];
-//       x += (roomRect[0] + roomRect[2] / 2) * (roomRect[2] * roomRect[3]);
-//       y += (roomRect[1] + roomRect[3] / 2) * (roomRect[2] * roomRect[3]);
-//     }
-//     x /= sum;
-//     y /= sum;
-//     for (let j = 0; j < rooms[key].rects.length; j++) {
-//       let roomRect = rooms[key].rects[j];
-//       if (x > roomRect[0] && y > roomRect[1] && x < roomRect[0] + roomRect[2] && y < roomRect[1] + roomRect[3]) {
-//         fill(51);
-//         textSize(1);
-//         textSize(roomRect[2] / textWidth(key) * scale * 0.75);
-//         text(key, (roomRect[0] + roomRect[2] / 2) * scale, y * scale);
-//       }
-//     }
-//   }
-// }
 
 function draw() {
   background(51);
