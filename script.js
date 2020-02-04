@@ -10,16 +10,19 @@ let scale = 1.5;
 let rooms = [];
 let dataFetched = false;
 
+// Loading Assets
 function preload() {
   assets[0] = loadImage("assets/Floor Plan.jpg");
   assets[1] = loadImage("assets/Floor Plan Simple.jpg");
   fonts[0] = loadFont("assets/fonts/Montserrat-Light.ttf");
 }
 
+// Create the canvas
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
 
+// Called when the database loads
 function databaseLoaded() {
   for (let i = 0; i < Object.keys(database.rooms).length - 1; i++) {
     let key = Object.keys(database.rooms)[i];
@@ -27,6 +30,7 @@ function databaseLoaded() {
   }
 }
 
+// Room class
 class Room {
   constructor(rects, name) {
     this.rects = [];
@@ -38,19 +42,18 @@ class Room {
 
   display() {
     let color = [255];
-
     for (let i = 0; i < this.rects.length; i++) {
       if (this.rects[i].mouseOn()) {
         color = [255, 100, 100];
       }
     }
-
     for (let i = 0; i < this.rects.length; i++) {
       this.rects[i].display(true, color, false);
     }
   }
 }
 
+// Rectangle class for the room class
 class Rectangle {
   constructor(x, y, w, h) {
     this.x = x;
@@ -79,6 +82,7 @@ class Rectangle {
   }
 }
 
+// Display everything
 function draw() {
   background(51);
   if (Object.keys(database).length == 0) {
