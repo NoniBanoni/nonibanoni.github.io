@@ -14,7 +14,7 @@ let dataFetched = false;
 function preload() {
   assets[0] = loadImage("assets/Floor Plan.jpg");
   assets[1] = loadImage("assets/Floor Plan Simple.jpg");
-  fonts[0] = loadFont("assets/fonts/Montserrat-Light.ttf");
+  fonts[0] = loadFont("assets/fonts/Montserrat-BlackItalic.ttf");
 }
 
 // Create the canvas
@@ -47,28 +47,34 @@ class Room {
       this.minY = Math.min(this.minY, rects[i][1]);
     }
     this.center = [(this.maxX - this.minX) / 2 + this.minX, (this.maxY - this.minY) / 2 + this.minY];
-    
     for (let i = 0; i < rects.length; i++) {
       if (this.rects[i].pointOver(...this.center)) {
         this.center[0] = this.rects[i].x + this.rects[i].w / 2;
+        this.centerRect = i;
+        break;
         //this.center[1] = this.rects[i].y + this.rects[i].h / 2;
       }
     }
   }
 
   display() {
-    let color = [255];
+    let fillColor = [255];
+    let textColor = [40];
     for (let i = 0; i < this.rects.length; i++) {
       if (this.rects[i].pointOver(mouseX, mouseY)) {
-        color = [255, 100, 100];
+        fillColor = [100, 150, 255];
+        textColor = [255];
       }
     }
     for (let i = 0; i < this.rects.length; i++) {
-      this.rects[i].display(true, color, false);
-      fill(51);
-      textAlign(CENTER, CENTER);
-      text(this.name, this.center[0], this.center[1]);
+      this.rects[i].display(true, fillColor, false);
     }
+    fill(...textColor);
+    textFont(fonts[0]);
+    textAlign(CENTER, CENTER);
+    textSize(1);
+    textSize((this.rects[this.centerRect].w / textWidth(this.name.toUpperCase())) / 1.25);
+    text(this.name.toUpperCase(), this.center[0], this.center[1]);
   }
 }
 
@@ -103,7 +109,7 @@ class Rectangle {
 
 // Display everything
 function draw() {
-  background(51);
+  background(40);
   if (Object.keys(database).length == 0) {
     fill(255);
     textFont(fonts[0]);
