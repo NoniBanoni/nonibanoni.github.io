@@ -4,10 +4,16 @@ let database = {};
 let firebase = new Firebase('https://roomonitor-4e09e.firebaseio.com');
 let keys = [];
 let fonts = [];
+let mouse = {
+  "pressed": false,
+  "held": false,
+  "released": false
+};
 
 // Other Variables
 let scale = 1.5;
 let rooms = [];
+let markers = [];
 let dataFetched = false;
 
 // Loading Assets
@@ -20,6 +26,9 @@ function preload() {
 // Create the canvas
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  for (let i = 0; i < 6; i++) {
+    markers.push(new Marker("logan", random(0, 400), random(0, 400)));
+  }
 }
 
 // Called when the database loads
@@ -107,6 +116,51 @@ class Rectangle {
   }
 }
 
+class Marker {
+  constructor(name, x, y) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    this.z = 0;
+    this.r = 20;
+    this.xOff = 0;
+    this.yOff = 0;
+    this.dragged = false;
+  }
+
+  display() {
+    fill(0, 25);
+    ellipse(this.x, this.y, this.r * 2 - this.z / 5);
+
+    fill(150, 200, 255, 225);
+    ellipse(this.x - this.z / 3, this.y - this.z, this.r * 2);
+  }
+
+  update() {
+    this.z += 0.75;
+    this.z += -this.z / 5;
+    if (this.pointOver(mouseX, mouseY) && mouse.pressed) {
+      this.xOff = this.x - mouseX;
+      this.yOff = this.y - mouseY;
+      this.dragged = true;
+    }
+
+    if (this.dragged) {
+      this.x = this.xOff + mouseX;
+      this.y = this.yOff + mouseY;
+      this.z += 2;
+    }
+
+    if (this.dragged && mouse.released) {
+      this.dragged = false;
+    }
+  }
+
+  pointOver(x, y) {
+    return dist(this.x, this.y, x, y) < this.r;
+  }
+}
+
 // Display everything
 function draw() {
   background(40);
@@ -116,15 +170,30 @@ function draw() {
     textAlign(CENTER, CENTER);
     text("FETCHING DATA...", width / 2, height / 2);
     return;
-  } else {
-    if (!dataFetched) {
-      databaseLoaded();
-    }
-    dataFetched = true;
-    for (let i = 0; i < rooms.length; i++) {
-      rooms[i].display();
-    }
   }
+  if (!dataFetched) {
+    databaseLoaded();
+  }
+  dataFetched = true;
+  for (let i = 0; i < rooms.length; i++) {
+    rooms[i].display();
+  }
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].update();
+    markers[i].display();
+  }
+  mouse.pressed = false;
+  mouse.released = false;
+}
+
+function mousePressed() {
+  mouse.pressed = true;
+  mouse.held = true;
+}
+
+function mouseReleased() {
+  mouse.released = true;
+  mouse.held = false;
 }
 
 // Realtime database updates
