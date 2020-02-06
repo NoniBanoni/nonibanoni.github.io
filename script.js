@@ -76,6 +76,7 @@ class Room {
       }
     }
     for (let i = 0; i < this.rects.length; i++) {
+<<<<<<< HEAD
       this.rects[i].display(true, fillColor, false);
     }
     fill(...textColor);
@@ -84,6 +85,13 @@ class Room {
     textSize(1);
     textSize((this.rects[this.centerRect].w / textWidth(this.name.toUpperCase())) / 1.25);
     text(this.name.toUpperCase(), this.center[0], this.center[1]);
+=======
+      this.rects[i].display(true, color, false);
+    }
+    fill(51);
+    textAlign(CENTER, CENTER);
+    text(this.name, this.center[0], this.center[1]);
+>>>>>>> db09a65c3660695bc58e4fd68046780c41f32917
   }
 }
 
