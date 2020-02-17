@@ -1,3 +1,7 @@
+
+
+
+
 // Core Variables
 let assets = [];
 let database = {};
@@ -11,7 +15,6 @@ let mouse = {
 };
 
 // Other Variables
-let scale = 1.5;
 let rooms = [];
 let markers = [];
 let dataFetched = false;
@@ -26,7 +29,7 @@ function preload() {
 // Create the canvas
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 10; i++) {
     markers.push(new Marker("logan", random(0, 400), random(0, 400)));
   }
 }
@@ -67,13 +70,18 @@ class Room {
   }
 
   display() {
-    let fillColor = [255];
-    let textColor = [40];
+    let fillColor = [51];
+    let textColor = [255];
     for (let i = 0; i < this.rects.length; i++) {
       if (this.rects[i].pointOver(mouseX, mouseY)) {
         fillColor = [100, 150, 255];
-        textColor = [255];
+        textColor = [51];
       }
+    }
+    noStroke();
+    fill(255);
+    for (let i = 0; i < this.rects.length; i++) {
+      rect(this.rects[i].x - 5, this.rects[i].y - 5, this.rects[i].w + 10, this.rects[i].h + 10);
     }
     for (let i = 0; i < this.rects.length; i++) {
       this.rects[i].display(true, fillColor, false);
@@ -146,9 +154,9 @@ class Marker {
     }
 
     if (this.dragged) {
-      this.x = this.xOff + mouseX;
-      this.y = this.yOff + mouseY;
-      this.z += 2;
+      this.x += (this.xOff + mouseX - this.x) / 3;
+      this.y += (this.yOff + mouseY - this.y) / 3;
+      this.z += 1;
     }
 
     if (this.dragged && mouse.released) {
@@ -166,6 +174,7 @@ function draw() {
   background(40);
   if (Object.keys(database).length == 0) {
     fill(255);
+    textSize(100);
     textFont(fonts[0]);
     textAlign(CENTER, CENTER);
     text("FETCHING DATA...", width / 2, height / 2);
