@@ -1,11 +1,8 @@
-
-
-
-
 // Core Variables
 let assets = [];
 let database = {};
-let firebase = new Firebase('https://roomonitor-4e09e.firebaseio.com');
+let db = firebase.database();
+//let firebase = new Firebase('https://roomonitor-4e09e.firebaseio.com');
 let keys = [];
 let fonts = [];
 let mouse = {
@@ -205,29 +202,28 @@ function mouseReleased() {
   mouse.held = false;
 }
 
-// Realtime database updates
-firebase.on('child_added', function (snapshot) {
+db.ref().on('child_added', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
 });
 
-firebase.on('child_changed', function (snapshot) {
+db.ref().on('child_changed', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
 });
 
-firebase.on('child_removed', function (snapshot) {
+db.ref().on('child_removed', function (snapshot) {
   let json = snapshot.val();
   delete database[json.key];
 });
 
 // Database edit functions
 function updateChild(name, json) {
-  firebase.ref().child(name).update(json);
+  db.ref().child(name).update(json);
 }
 function addChild(name, json) {
-  firebase.ref().child(name).set(json);
+  db.ref().child(name).set(json);
 }
 function removeChild(name) {
-  firebase.ref().child(name).remove();
+  db.ref().child(name).remove();
 }
