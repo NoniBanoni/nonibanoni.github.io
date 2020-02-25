@@ -15,7 +15,7 @@ let rooms = []; // Array of Room objects
 let markers = []; // Array of Marker objects
 let dataFetched = false; // Is firebase data fetched?
 
-// Loading assets and fonts.
+// Loading assets and fonts
 function preload() {
   assets[0] = loadImage("assets/Floor Plan.jpg");
   assets[1] = loadImage("assets/Floor Plan Simple.jpg");
