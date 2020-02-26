@@ -184,7 +184,6 @@ class Marker {
 
 // Display exverything
 function draw() {
-  marker.display()
   if (!signedIn) {
     fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
     rect(0, 0, width, height);
