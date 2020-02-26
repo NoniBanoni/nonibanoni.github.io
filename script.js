@@ -6,6 +6,7 @@ let fonts = []; // Fonts loaded
 let signedIn = false; // Is user signed in?
 let scale = 0; // Scale for the rooms
 let palate = {}; // Color palate for website
+let marker = new Marker("matti",400,400);
 let mouse = { // Mouse actions
   "pressed": false,
   "held": false,
@@ -183,6 +184,7 @@ class Marker {
 
 // Display everything
 function draw() {
+  marker.display()
   if (!signedIn) {
     fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
     rect(0, 0, width, height);
