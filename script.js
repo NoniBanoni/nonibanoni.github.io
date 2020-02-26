@@ -181,7 +181,6 @@ class Marker {
     return dist(this.x, this.y, x, y) < this.r;
   }
 }
-<<<<<<< HEAD
 // if (mouseIsPressed) {
 //   var provider = new firebase.auth.GoogleAuthProvider();
 //   provider.addScope("https://www.googleapis.com/auth/calendar");
@@ -202,14 +201,11 @@ class Marker {
 //     // ...
 //   });
 // }
-// Display everything
-=======
 
-// Display exverything
->>>>>>> fc1406f556c8335f331b052f3fe9a43455317e1d
+// Display everything
 function draw() {
   $(".g-signin2")[0].style.display = "none";
-  
+
   fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
   rect(0, 0, width, height);
   if (frameCount < 60) {
