@@ -151,8 +151,8 @@ class Marker {
   display() {
     fill(0, 25);
     ellipse(this.x, this.y, this.r * 2 - this.z / 5);
-
-    fill(150, 200, 255, 225);
+    text(name,this.x,this.y)
+    fill(255,255,255,225);
     ellipse(this.x - this.z / 3, this.y - this.z, this.r * 2);
   }
 
