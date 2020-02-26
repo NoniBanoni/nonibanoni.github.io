@@ -182,7 +182,7 @@ class Marker {
   }
 }
 
-// Display everything
+// Display exverything
 function draw() {
   marker.display()
   if (!signedIn) {
