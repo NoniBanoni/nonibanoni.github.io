@@ -206,15 +206,15 @@ function draw() {
 
   fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
   rect(0, 0, width, height);
-  if (frameCount < 60) {
-    noStroke();
-    textAlign(CENTER);
-    textSize(width / 50);
-    textFont(fonts[0]);
-    fill(255);
-    text("LOADING...\nPLEASE WAIT", width / 2, height / 2);
-    return;
-  }
+  // if (frameCount < 60) {
+  //   noStroke();
+  //   textAlign(CENTER);
+  //   textSize(width / 50);
+  //   textFont(fonts[0]);
+  //   fill(255);
+  //   text("LOADING...\nPLEASE WAIT", width / 2, height / 2);
+  //   return;
+  // }
 
   if (!signedIn) {
     $(".g-signin2")[0].style.display = "";
