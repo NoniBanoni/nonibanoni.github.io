@@ -6,7 +6,6 @@ let fonts = []; // Fonts loaded
 let signedIn = false; // Is user signed in?
 let scale = 0; // Scale for the rooms
 let palate = {}; // Color palate for website
-let marker = new Marker("matti",400,400);
 let mouse = { // Mouse actions
   "pressed": false,
   "held": false,
