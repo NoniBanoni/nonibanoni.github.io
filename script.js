@@ -6,6 +6,7 @@ let fonts = []; // Fonts loaded
 let signedIn = false; // Is user signed in?
 let scale = 0; // Scale for the rooms
 let palate = {}; // Color palate for website
+let marker = new Marker("matti",400,400);
 let mouse = { // Mouse actions
   "pressed": false,
   "held": false,
@@ -151,8 +152,8 @@ class Marker {
   display() {
     fill(0, 25);
     ellipse(this.x, this.y, this.r * 2 - this.z / 5);
-
-    fill(150, 200, 255, 225);
+    text(name,this.x,this.y)
+    fill(255,255,255,225);
     ellipse(this.x - this.z / 3, this.y - this.z, this.r * 2);
   }
 
@@ -180,6 +181,7 @@ class Marker {
     return dist(this.x, this.y, x, y) < this.r;
   }
 }
+<<<<<<< HEAD
 // if (mouseIsPressed) {
 //   var provider = new firebase.auth.GoogleAuthProvider();
 //   provider.addScope("https://www.googleapis.com/auth/calendar");
@@ -201,6 +203,10 @@ class Marker {
 //   });
 // }
 // Display everything
+=======
+
+// Display exverything
+>>>>>>> fc1406f556c8335f331b052f3fe9a43455317e1d
 function draw() {
   $(".g-signin2")[0].style.display = "none";
   
