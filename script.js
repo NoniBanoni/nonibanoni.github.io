@@ -29,9 +29,9 @@ function setup() {
     klsYellow: color(201, 221, 59),
     klsBlue: color(92, 203, 224),
     klsPurple: color(118, 145, 204),
-    mainColor: color(40),
+    mainColor: color(255),
     subColor: color(200),
-    borderColor: color(80)
+    borderColor: color(200)
   }
   // Create a 16 by 9 canvas that is optimally fit to the screen
   createCanvas(Math.floor(Math.min(windowWidth / 16, windowHeight / 9) * 16), Math.floor(Math.min(windowWidth / 16, windowHeight / 9) * 9));
