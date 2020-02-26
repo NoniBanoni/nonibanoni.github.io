@@ -180,51 +180,66 @@ class Marker {
     return dist(this.x, this.y, x, y) < this.r;
   }
 }
-
+// if (mouseIsPressed) {
+//   var provider = new firebase.auth.GoogleAuthProvider();
+//   provider.addScope("https://www.googleapis.com/auth/calendar");
+//   firebase.auth().signInWithPopup(provider).then(function(result) {
+//     // This gives you a Google Access Token. You can use it to access the Google API.
+//     var token = result.credential.accessToken;
+//     // The signed-in user info.
+//     var user = result.user;
+//     console.log(result);
+//   }).catch(function(error) {
+//     // Handle Errors here.
+//     var errorCode = error.code;
+//     var errorMessage = error.message;
+//     // The email of the user's account used.
+//     var email = error.email;
+//     // The firebase.auth.AuthCredential type that was used.
+//     var credential = error.credential;
+//     // ...
+//   });
+// }
 // Display everything
 function draw() {
-  if (!signedIn) {
-    fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
-    rect(0, 0, width, height);
+  $(".g-signin2")[0].style.display = "none";
+  
+  fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
+  rect(0, 0, width, height);
+  if (frameCount < 60) {
     noStroke();
-    rectMode(CENTER);
-    fill(255);
-    if (mouseX >= width / 2 - width / 5 / 2 && mouseY >= height / 2 - height / 8 / 2 && mouseX <= width / 2 + width / 5 / 2 && mouseY <= height / 2 + height / 8) {
-      fill(palate.klsYellow);
-      $(".g-signin2")[0].click();
-      // if (mouseIsPressed) {
-      //   var provider = new firebase.auth.GoogleAuthProvider();
-      //   provider.addScope("https://www.googleapis.com/auth/calendar");
-      //   firebase.auth().signInWithPopup(provider).then(function(result) {
-      //     // This gives you a Google Access Token. You can use it to access the Google API.
-      //     var token = result.credential.accessToken;
-      //     // The signed-in user info.
-      //     var user = result.user;
-      //     console.log(result);
-      //   }).catch(function(error) {
-      //     // Handle Errors here.
-      //     var errorCode = error.code;
-      //     var errorMessage = error.message;
-      //     // The email of the user's account used.
-      //     var email = error.email;
-      //     // The firebase.auth.AuthCredential type that was used.
-      //     var credential = error.credential;
-      //     // ...
-      //   });
-      // }
-    }
-    rect(width / 2, height / 2, width / 5, height / 8, width / 100);
     textAlign(CENTER);
     textSize(width / 50);
     textFont(fonts[0]);
     fill(255);
-    text("YOU ARE SIGNED OUT.", width / 2, height / 3);
-    fill(palate.mainColor);
-    text("SIGN IN WITH\nGOOGLE", width / 2, height / 2);
-    rectMode(CORNER);
-
+    text("LOADING...\nPLEASE WAIT", width / 2, height / 2);
     return;
   }
+
+  if (!signedIn) {
+    $(".g-signin2")[0].style.display = "";
+    let button = $(".abcRioButton")[0];
+    button.style.transform = `scale(${width / 500})`;
+    buttonWidth = parseInt(button.style.width.substring(0, button.style.width.length - 2));
+    buttonHeight = parseInt(button.style.height.substring(0, button.style.height.length - 2));
+    $(".g-signin2")[0].style.position = `absolute`;
+    $(".g-signin2")[0].style.left = `${width / 2 - buttonWidth / 2}px`;
+    $(".g-signin2")[0].style.top = `${height / 2 - buttonHeight / 2}px`;
+    //$(".g-signin2")[0].style.zIndex = `1`;
+    if (mouseX >= width / 2 - width / 5 / 2 && mouseY >= height / 2 - height / 8 / 2 && mouseX <= width / 2 + width / 5 / 2 && mouseY <= height / 2 + height / 8) {
+      fill(palate.klsYellow);
+      if (mouseIsPressed) {
+      }
+    }
+    noStroke();
+    textAlign(CENTER);
+    textSize(width / 50);
+    textFont(fonts[0]);
+    fill(255);
+    text("YOU ARE SIGNED OUT.", width / 2, height / 2 - buttonWidth);
+    return;
+  }
+
   image(assets[2], 0, 0, width, height);
   if (Object.keys(database).length == 0) {
     fill(255);
