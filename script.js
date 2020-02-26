@@ -201,7 +201,6 @@ class Marker {
 //     // ...
 //   });
 // }
-
 // Display everything
 function draw() {
   $(".g-signin2")[0].style.display = "none";
