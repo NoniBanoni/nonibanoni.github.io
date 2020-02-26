@@ -253,6 +253,11 @@ function draw() {
   rectMode(CENTER);
   rect(width / 2, height / 2, 555 * (scale * 1.125), 720 * (scale * 1.125), width / 75);
   rectMode(CORNER);
+  
+  (width - 555 * (scale * 1.125)) / 2
+  rect((height - 720 * (scale * 1.125)) / 2, (height - 720 * (scale * 1.125)) / 2, (width / 2 - (720 * (scale * 1.125) / 2)), 720 * (scale * 1.125), width / 75);
+  rect(width / 2 + ((555 * (scale * 1.125)) / 2) + ((height - 720 * (scale * 1.125)) / 2), (height - 720 * (scale * 1.125)) / 2, (width / 2 - (720 * (scale * 1.125) / 2)), 720 * (scale * 1.125), width / 75);
+
   if (!dataFetched) {
     databaseLoaded();
   }
