@@ -186,41 +186,12 @@ class Marker {
     return dist(this.x, this.y, x, y) < this.r;
   }
 }
-// if (mouseIsPressed) {
-//   var provider = new firebase.auth.GoogleAuthProvider();
-//   provider.addScope("https://www.googleapis.com/auth/calendar");
-//   firebase.auth().signInWithPopup(provider).then(function(result) {
-//     // This gives you a Google Access Token. You can use it to access the Google API.
-//     var token = result.credential.accessToken;
-//     // The signed-in user info.
-//     var user = result.user;
-//     console.log(result);
-//   }).catch(function(error) {
-//     // Handle Errors here.
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
-//     // The email of the user's account used.
-//     var email = error.email;
-//     // The firebase.auth.AuthCredential type that was used.
-//     var credential = error.credential;
-//     // ...
-//   });
-// }
 // Display everything
 function draw() {
   $(".g-signin2")[0].style.display = "none";
 
   fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
   rect(0, 0, width, height);
-  // if (frameCount < 60) {
-  //   noStroke();
-  //   textAlign(CENTER);
-  //   textSize(width / 50);
-  //   textFont(fonts[0]);
-  //   fill(255);
-  //   text("LOADING...\nPLEASE WAIT", width / 2, height / 2);
-  //   return;
-  // }
 
   if (!signedIn) {
     $(".g-signin2")[0].style.display = "";
@@ -295,7 +266,7 @@ db.ref().on('child_added', function (snapshot) {
   if (json.key == "markers") {
     for (let i = 0; i < Object.keys(json).length - 1; i++) {
       let markerJSON = json[Object.keys(json)[i]];
-      markers.push(new Marker(markerJSON.key, markerJSON.x, markerJSON.y));
+      markers.push(new Marker(markerJSON.name, markerJSON.x, markerJSON.y));
     }
   }
 });
@@ -303,6 +274,13 @@ db.ref().on('child_added', function (snapshot) {
 db.ref().on('child_changed', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
+  if (json.key == "markers") {
+    for (let i = 0; i < markers.length - 1; i++) {
+      markers[i].x = json[Object.keys(json)[i]].x;
+      markers[i].y = json[Object.keys(json)[i]].y;
+      markers[i].z = json[Object.keys(json)[i]].z;
+    }
+  }
 });
 
 db.ref().on('child_removed', function (snapshot) {
@@ -325,28 +303,5 @@ function onSignIn(user) {
   console.log(user);
   if (user) {
     signedIn = true;
-  } else {
-    
-    // // FirebaseUI config.
-		// var uiConfig = {
-		// 	signInSuccessUrl: window.location.href,
-		// 	signInOptions: [
-		// 		// Leave the lines as is for the providers you want to offer your users.
-		// 		firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-		// 	],
-		// 	// tosUrl and privacyPolicyUrl accept either url string or a callback
-		// 	// function.
-		// 	// Terms of service url/callback.
-		// 	tosUrl: '<your-tos-url>',
-		// 	// Privacy policy url/callback.
-		// 	privacyPolicyUrl: function () {
-		// 		window.location.assign('<your-privacy-policy-url>');
-		// 	}
-		// };
-
-		// // Initialize the FirebaseUI Widget using Firebase.
-		// var ui = new firebaseui.auth.AuthUI(firebase.auth());
-		// // The start method will wait until the DOM is loaded.
-    // ui.start('#firebaseui-auth-container', uiConfig);
   }
 }
