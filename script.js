@@ -142,7 +142,7 @@ class Marker {
     this.x = x;
     this.y = y;
     this.z = 0;
-    this.r = 20;
+    this.r = 25
     this.xOff = 0;
     this.yOff = 0;
     this.dragged = false;
@@ -151,9 +151,10 @@ class Marker {
   display() {
     fill(0, 25);
     ellipse(this.x, this.y, this.r * 2 - this.z / 5);
-    text(name,this.x,this.y)
-    fill(255,255,255,225);
+    fill(palate.klsYellow);
     ellipse(this.x - this.z / 3, this.y - this.z, this.r * 2);
+    fill(palate.mainColor);
+    text(this.name, this.x - this.z / 3, this.y - this.z);
   }
 
   update() {
@@ -169,6 +170,11 @@ class Marker {
       this.x += (this.xOff + mouseX - this.x) / 3;
       this.y += (this.yOff + mouseY - this.y) / 3;
       this.z += 1;
+      let json = database.markers[this.name];
+      json.x = this.x;
+      json.y = this.y;
+      json.z = this.z;
+      updateChild("markers/" + this.name, json);
     }
 
     if (this.dragged && mouse.released) {
@@ -286,6 +292,12 @@ function mouseReleased() {
 db.ref().on('child_added', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
+  if (json.key == "markers") {
+    for (let i = 0; i < Object.keys(json).length - 1; i++) {
+      let markerJSON = json[Object.keys(json)[i]];
+      markers.push(new Marker(markerJSON.name, markerJSON.x, markerJSON.y));
+    }
+  }
 });
 
 db.ref().on('child_changed', function (snapshot) {
