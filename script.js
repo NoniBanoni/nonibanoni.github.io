@@ -295,7 +295,7 @@ db.ref().on('child_added', function (snapshot) {
   if (json.key == "markers") {
     for (let i = 0; i < Object.keys(json).length - 1; i++) {
       let markerJSON = json[Object.keys(json)[i]];
-      markers.push(new Marker(markerJSON.name, markerJSON.x, markerJSON.y));
+      markers.push(new Marker(markerJSON.key, markerJSON.x, markerJSON.y));
     }
   }
 });
