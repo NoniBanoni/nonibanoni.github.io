@@ -275,7 +275,7 @@ db.ref().on('child_changed', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
   if (json.key == "markers") {
-    for (let i = 0; i < markers.length - 1; i++) {
+    for (let i = 0; i < markers.length; i++) {
       markers[i].x = json[Object.keys(json)[i]].x;
       markers[i].y = json[Object.keys(json)[i]].y;
       markers[i].z = json[Object.keys(json)[i]].z;
