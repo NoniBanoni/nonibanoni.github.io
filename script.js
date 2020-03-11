@@ -35,7 +35,7 @@ function setup() {
   }
   // Create a 16 by 9 canvas that is optimally fit to the screen
   createCanvas(Math.floor(Math.min(windowWidth / 16, windowHeight / 9) * 16), Math.floor(Math.min(windowWidth / 16, windowHeight / 9) * 9));
-  
+
   // Set scale so that the rooms will fit the canvas perfectly.
   scale = Math.min(width / 555, height / 720) * 0.8;
 }
@@ -149,18 +149,18 @@ class Marker {
   }
 
   display() {
-    fill(0, 25);
+    fill(palate.klsYellow.levels[0], palate.klsYellow.levels[1], palate.klsYellow.levels[2], 25);
     ellipse(this.x, this.y, this.r * 2 - this.z / 5);
     fill(palate.klsYellow);
     ellipse(this.x - this.z / 3, this.y - this.z, this.r * 2);
     fill(palate.mainColor);
     text(this.name, this.x - this.z / 3, this.y - this.z);
   }
-
+  
   update() {
     this.z += 0.75;
     this.z += -this.z / 5;
-    if (this.pointOver(mouseX, mouseY) && mouse.pressed) {
+    if (mouse.pressed && this.pointOver(mouseX, mouseY)) {
       this.xOff = this.x - mouseX;
       this.yOff = this.y - mouseY;
       this.dragged = true;
@@ -169,10 +169,10 @@ class Marker {
     if (this.dragged) {
       this.x += (this.xOff + mouseX - this.x) / 3;
       this.y += (this.yOff + mouseY - this.y) / 3;
-      this.z += 1;
+      //this.z += 1;
       let json = database.markers[this.name];
-      json.x = this.x;
-      json.y = this.y;
+      json.x = this.x / width;
+      json.y = this.y / height;
       json.z = this.z;
       updateChild("markers/" + this.name, json);
     }
@@ -183,16 +183,45 @@ class Marker {
   }
 
   pointOver(x, y) {
-    return dist(this.x, this.y, x, y) < this.r;
+    if (dist(this.x, this.y, x, y) >= this.r) {
+      return false;
+    }
+    for (let i = markers.length - 1; i > markers.indexOf(this); i--) {
+      if (dist(markers[i].x, markers[i].y, x, y) < markers[i].r) {
+        return false;
+      }
+    }
+    return true;
   }
 }
+
+let waiting = true;
+
 // Display everything
 function draw() {
   $(".g-signin2")[0].style.display = "none";
-
   fill(palate.mainColor.levels[0], palate.mainColor.levels[1], palate.mainColor.levels[2]);
   rect(0, 0, width, height);
 
+  if (frameCount < 60) {
+    waiting = true;
+    noStroke();
+    textAlign(CENTER);
+    textSize(width / 50);
+    textFont(fonts[0]);
+    fill(255);
+    text("PLEASE WAIT...", width / 2, height / 2);
+    return;
+  }
+
+  if (waiting && frameCount > 60) {
+    for (let i = 0; i < Object.keys(database.markers).length - 1; i++) {
+      markerJSON = database.markers[Object.keys(database.markers)[i]];
+      markers.push(new Marker(markerJSON.name, markerJSON.x * width, markerJSON.y * height));
+    }
+    waiting = false;
+  }
+    
   if (!signedIn) {
     $(".g-signin2")[0].style.display = "";
     let button = $(".abcRioButton")[0];
@@ -263,10 +292,10 @@ function mouseReleased() {
 db.ref().on('child_added', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
-  if (json.key == "markers") {
+  if (json.key == "markers" && frameCount > 60) {
     for (let i = 0; i < Object.keys(json).length - 1; i++) {
       let markerJSON = json[Object.keys(json)[i]];
-      markers.push(new Marker(markerJSON.name, markerJSON.x, markerJSON.y));
+      markers.push(new Marker(markerJSON.name, markerJSON.x * width, markerJSON.y * height));
     }
   }
 });
@@ -276,9 +305,8 @@ db.ref().on('child_changed', function (snapshot) {
   database[json.key] = json;
   if (json.key == "markers") {
     for (let i = 0; i < markers.length; i++) {
-      markers[i].x = json[Object.keys(json)[i]].x;
-      markers[i].y = json[Object.keys(json)[i]].y;
-      markers[i].z = json[Object.keys(json)[i]].z;
+      markers[i].x = json[Object.keys(json)[i]].x * width;
+      markers[i].y = json[Object.keys(json)[i]].y * height;
     }
   }
 });
