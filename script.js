@@ -142,7 +142,7 @@ class Marker {
     this.x = x;
     this.y = y;
     this.z = 0;
-    this.r = 25
+    this.r = width / 75;
     this.xOff = 0;
     this.yOff = 0;
     this.dragged = false;
@@ -154,6 +154,8 @@ class Marker {
     fill(palate.klsYellow);
     ellipse(this.x - this.z / 3, this.y - this.z, this.r * 2);
     fill(palate.mainColor);
+    textSize(1);
+    textSize((this.r * 2 / textWidth(this.name)) / 1.25);
     text(this.name, this.x - this.z / 3, this.y - this.z);
   }
   
@@ -292,7 +294,7 @@ function mouseReleased() {
 db.ref().on('child_added', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
-  if (json.key == "markers" && frameCount > 60) {
+  if (json.key == "markers" && width) {
     for (let i = 0; i < Object.keys(json).length - 1; i++) {
       let markerJSON = json[Object.keys(json)[i]];
       markers.push(new Marker(markerJSON.name, markerJSON.x * width, markerJSON.y * height));
@@ -304,7 +306,7 @@ db.ref().on('child_changed', function (snapshot) {
   let json = snapshot.val();
   database[json.key] = json;
   if (json.key == "markers") {
-    for (let i = 0; i < markers.length; i++) {
+    for (let i = 0; i < database.markers.length - 1; i++) {
       markers[i].x = json[Object.keys(json)[i]].x * width;
       markers[i].y = json[Object.keys(json)[i]].y * height;
     }
@@ -328,7 +330,19 @@ function removeChild(name) {
 }
 
 function onSignIn(user) {
-  console.log(user);
+  for (let i = 0; i < Object.keys(database.markers).length; i++) {
+    if (Object.keys(database.markers)[i].name == user.Qt.Ad) {
+      return;
+    }
+  }
+  addChild("markers/" + user.Qt.Ad, {
+    "loc": "blank",
+    "name": user.Qt.Ad,
+    "x": 0.5,
+    "y": 0.5,
+    "z": 2.999999999999999
+  });
+  console.log(user.Qt.Ad);
   if (user) {
     signedIn = true;
   }
