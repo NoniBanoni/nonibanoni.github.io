@@ -3,7 +3,7 @@ class Marker {
     this.name = name;
     this.pos = createVector(x, y);
     this.vel = createVector(0, 0);
-    this.r = width / 75;
+    this.r = w / 75;
     this.dragged = false;
   }
 
