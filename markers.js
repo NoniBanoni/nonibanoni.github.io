@@ -29,17 +29,17 @@ class Marker {
     if (this.dragged) {
       let mousePos = createVector(mouseX / w, mouseY / h);
       this.vel = p5.Vector.sub(mousePos, this.pos).div(3);
+      let markerJSON = {
+        "name": this.name,
+        "x": this.pos.x,
+        "y": this.pos.y
+      };
+      updateChild("markers/" + this.name, markerJSON);
     }
 
     if (this.dragged && mouse.released) {
       this.dragged = false;
     }
-    let markerJSON = {
-      "name": this.name,
-      "x": this.pos.x,
-      "y": this.pos.y
-    };
-    updateChild("markers/" + this.name, markerJSON);
   }
 
   pointOver(x, y) {
