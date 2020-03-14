@@ -22,13 +22,16 @@ class Marker {
     this.pos.add(this.vel);
     this.vel.mult(0.9);
 
-    if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h)) {
+    if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Qt.Ad) {
       this.dragged = true;
     }
 
     if (this.dragged) {
       let mousePos = createVector(mouseX / w, mouseY / h);
       this.vel = p5.Vector.sub(mousePos, this.pos).div(3);
+    }
+
+    if (this.vel.mag() < 0.001) {
       let markerJSON = {
         "name": this.name,
         "x": this.pos.x,
