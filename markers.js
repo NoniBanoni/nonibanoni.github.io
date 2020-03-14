@@ -31,7 +31,7 @@ class Marker {
       this.vel = p5.Vector.sub(mousePos, this.pos).div(3);
     }
 
-    if (this.vel.mag() > 0.001) {
+    if (this.name == user.Qt.Ad) {
       let markerJSON = {
         "name": this.name,
         "x": this.pos.x,
