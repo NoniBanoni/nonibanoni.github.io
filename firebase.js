@@ -52,8 +52,8 @@ function onSignIn(callback) {
       "name": user.Qt.Ad,
       "x": 0.5,
       "y": 0.5,
-      "xVel": this.vel.x,
-      "yVel": this.vel.y
+      "xVel": 0,
+      "yVel": 0
     });
   }
 }
