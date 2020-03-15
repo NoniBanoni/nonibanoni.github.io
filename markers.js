@@ -20,7 +20,7 @@ class Marker {
   
   update() {
     this.pos.add(this.vel);
-    this.vel.mult(0.7);
+    this.vel.mult(0.9);
 
     if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Qt.Ad) {
       this.dragged = true;
@@ -28,7 +28,7 @@ class Marker {
 
     if (this.dragged) {
       let mousePos = createVector(mouseX / w, mouseY / h);
-      this.vel.add(p5.Vector.sub(mousePos, this.pos).div(8));
+      this.vel = p5.Vector.sub(mousePos, this.pos).div(3);
     }
 
     if (this.pos.x <= 0 || this.pos.x >= 1 || this.pos.y <= 0 || this.pos.y >= 1) {
