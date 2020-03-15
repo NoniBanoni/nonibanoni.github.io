@@ -56,7 +56,7 @@ class Marker {
           let scaledPos2 = createVector(markers[i].pos.x * w, markers[i].pos.y * h);
           let v = p5.Vector.sub(scaledPos2, scaledPos);
           let v2 = v.setMag(v.mag() - this.r * 2);
-          this.pos.add(createVector(v2.x / w, v2.y / h));
+          this.vel.add(createVector(v2.x / w, v2.y / h));
         }
       }
 
