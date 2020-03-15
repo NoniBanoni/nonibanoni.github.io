@@ -73,6 +73,7 @@ function draw() {
     for (let i = 0; i < Object.keys(database.markers).length - 1; i++) {
       let key = Object.keys(database.markers)[i];
       markers.push(new Marker(database.markers[key].name, database.markers[key].x, database.markers[key].y));
+      markers[markers.length - 1].vel = createVector(database.markers[key].xVel, database.markers[key].yVel);
     }
   }
 

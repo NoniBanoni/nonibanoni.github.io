@@ -42,7 +42,9 @@ class Marker {
       let markerJSON = {
         "name": this.name,
         "x": this.pos.x,
-        "y": this.pos.y
+        "y": this.pos.y,
+        "xVel": this.vel.x,
+        "yVel": this.vel.y
       };
       updateChild("markers/" + this.name, markerJSON);
     }
@@ -79,7 +81,7 @@ class Marker {
                 return;
               }
             }
-            this.vel.add(p5.Vector.sub(createVector(rooms[i].center.x / w, rooms[i].center.y / h), this.pos).div(100));
+            this.vel.add(p5.Vector.sub(createVector(rooms[i].center.x / w, rooms[i].center.y / h), this.pos).div(25));
             return;
           }
         }

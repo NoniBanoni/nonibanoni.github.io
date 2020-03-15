@@ -5,6 +5,7 @@ ref.ref().on('child_added', function (snapshot) {
     for (let i = 0; i < Object.keys(json).length - 1; i++) {
       let markerJSON = json[Object.keys(json)[i]];
       markers.push(new Marker(markerJSON.name, markerJSON.x, markerJSON.y));
+      markers[markers.length - 1].vel = createVector(markerJSON.xVel, markerJSON.yVel);
     }
   }
 });
@@ -16,6 +17,8 @@ ref.ref().on('child_changed', function (snapshot) {
     for (let i = 0; i < Object.keys(json).length - 1; i++) {
       markers[i].pos.x = json[Object.keys(json)[i]].x;
       markers[i].pos.y = json[Object.keys(json)[i]].y;
+      markers[i].vel.x = json[Object.keys(json)[i]].xVel;
+      markers[i].vel.y = json[Object.keys(json)[i]].yVel;
     }
   }
 });
@@ -48,7 +51,9 @@ function onSignIn(callback) {
     addChild("markers/" + user.Qt.Ad, {
       "name": user.Qt.Ad,
       "x": 0.5,
-      "y": 0.5
+      "y": 0.5,
+      "xVel": this.vel.x,
+      "yVel": this.vel.y
     });
   }
 }
