@@ -51,8 +51,12 @@ class Marker {
     }
     if (this.name == user.Qt.Ad && !this.dragged) {
       for (let i = 0; i < markers.length; i++) {
-        if (dist(markers[i].pos.x * w, markers[i].pos.y * h, this.pos.x * w, this.pos.y * h) < this.r * 2) {
-          this.vel.add(p5.Vector.sub(this.pos, markers[i].pos).div(40));
+        if (dist(markers[i].pos.x * w, markers[i].pos.y * h, this.pos.x * w, this.pos.y * h) < this.r * 2 && markers[i].name !== this.name) {
+          let scaledPos = createVector(this.pos.x * w, this.pos.y * h);
+          let scaledPos2 = createVector(markers[i].pos.x * w, markers[i].pos.y * h);
+          let v = p5.Vector.sub(scaledPos2, scaledPos);
+          let v2 = v.setMag(v.mag() - this.r * 2);
+          this.pos.add(createVector(v2.x / w, v2.y / h));
         }
       }
 

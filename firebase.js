@@ -10,7 +10,6 @@ ref.ref().on('child_added', function (snapshot) {
 });
 
 ref.ref().on('child_changed', function (snapshot) {
-  console.log("changes");
   let json = snapshot.val();
   database[json.key] = json;
   if (json.key == "markers" && loaded) {
