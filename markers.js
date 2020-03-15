@@ -42,9 +42,7 @@ class Marker {
       let markerJSON = {
         "name": this.name,
         "x": this.pos.x,
-        "y": this.pos.y,
-        "xVel": this.vel.x,
-        "yVel": this.vel.y
+        "y": this.pos.y
       };
       updateChild("markers/" + this.name, markerJSON);
     }
