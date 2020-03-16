@@ -70,7 +70,7 @@ class Marker {
           v.x /= w;
           v.y /= h;
           this.pos.add(v);
-          this.vel.add(v);
+          this.vel.add(v.setMag(this.vel.mag() / 2));
         }
       }
 
