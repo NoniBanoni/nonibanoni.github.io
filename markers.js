@@ -63,6 +63,17 @@ class Marker {
       this.loc = "blank";
     }
     if (this.name == user.Qt.Ad && !this.dragged) {
+      for (let i = 0; i < markers.length; i++) {
+        if (this.name != markers[i].name && dist(markers[i].pos.x * w, markers[i].pos.y * h, this.pos.x * w, this.pos.y * h) < this.r * 2) {
+          let v = p5.Vector.sub(createVector(markers[i].pos.x * w, markers[i].pos.y * h), createVector(this.pos.x * w, this.pos.y * h));
+          v.setMag(v.mag() - this.r * 2);
+          v.x /= w;
+          v.y /= h;
+          this.pos.add(v);
+          this.vel.add(v);
+        }
+      }
+
       for (let i = 0; i < rooms.length; i++) {
         if (rooms[i].name == this.loc) {
           for (let j = 0; j < rooms[i].rects.length; j++) {
@@ -112,15 +123,7 @@ class Marker {
   }
 
   pointOver(x, y) {
-    if (dist(this.pos.x * w, this.pos.y * h, x * w, y * h) >= this.r) {
-      return false;
-    }
-    for (let i = markers.length - 1; i > markers.indexOf(this); i--) {
-      if (dist(markers[i].pos.x * w, markers[i].pos.y * h, x * w, y * h) < markers[i].r) {
-        return false;
-      }
-    }
-    return true;
+    return dist(this.pos.x * w, this.pos.y * h, x * w, y * h) < this.r;
   }
 }
 
