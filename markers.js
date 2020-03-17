@@ -67,6 +67,7 @@ class Marker {
           v.x /= w;
           v.y /= h;
           this.pos.add(v);
+          shake += this.vel.mag();
           if (!this.dragged) {
             this.vel.add(v.setMag(this.vel.mag() / 2));
           }
@@ -98,21 +99,25 @@ class Marker {
               if (intersects(r.x, r.y, r.x + r.w, r.y, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
                 this.pos = createVector(...intersectPoint(r.x, r.y, r.x + r.w, r.y, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
                 this.vel.y *= -1;
+                shake += this.vel.mag();
                 return;
               }
               if (intersects(r.x + r.w, r.y, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
                 this.pos = createVector(...intersectPoint(r.x + r.w, r.y, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
                 this.vel.x *= -1;
+                shake += this.vel.mag();
                 return;
               }
               if (intersects(r.x, r.y, r.x, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
                 this.pos = createVector(...intersectPoint(r.x, r.y, r.x, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
                 this.vel.x *= -1;
+                shake += this.vel.mag();
                 return;
               }
               if (intersects(r.x, r.y + r.h, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
                 this.pos = createVector(...intersectPoint(r.x, r.y + r.h, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
                 this.vel.y *= -1;
+                shake += this.vel.mag();
                 return;
               }
             }

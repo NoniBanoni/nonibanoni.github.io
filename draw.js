@@ -6,6 +6,7 @@ let user;
 let loaded = false; // Is everything loaded?
 let signedIn = false; // Is user signed in?
 let dataFetched = false; // Is firebase data fetched?
+let shake = 0;
 
 let palate = {
   yellow: [201, 221, 59],
@@ -48,6 +49,11 @@ function setup() {
 
 // Display everything
 function draw() {
+  push();
+  translate(random(0, shake * 100), random(0, shake * 100));
+
+  shake *= 0.8;
+
   fill(...palate.mainColor);
   rect(0, 0, width, height);
 
@@ -121,6 +127,7 @@ function draw() {
   }
   mouse.pressed = false;
   mouse.released = false;
+  pop();
 }
 
 function mousePressed() {
