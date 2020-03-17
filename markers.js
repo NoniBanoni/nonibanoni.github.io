@@ -82,7 +82,6 @@ class Marker {
             let theta = angle - HALF_PI;
             let finalAngle = velAngle + theta;
             this.vel.rotate(finalAngle);
-            this.pos.add(this.vel);
           }
         }
       }
