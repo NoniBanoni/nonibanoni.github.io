@@ -1,5 +1,4 @@
 ref.ref().on('child_added', function(snapshot) {
-  console.log(snapshot.key);
   let json = snapshot.val();
   database[snapshot.key] = json;
   if (loaded) {
@@ -8,7 +7,6 @@ ref.ref().on('child_added', function(snapshot) {
 });
 
 ref.ref().on('child_changed', function(snapshot) {
-  console.log(snapshot.key);
   let json = snapshot.val();
   database[snapshot.key] = json;
   if (loaded) {
@@ -49,8 +47,8 @@ function updateObjects() {
   } else {
     for (let i = 0; i < Object.keys(database.markers).length; i++) {
       let key = Object.keys(database.markers)[i];
-      markers[i].x = database.markers[key].x;
-      markers[i].y = database.markers[key].y;
+      markers[i].pos.x = database.markers[key].x;
+      markers[i].pos.y = database.markers[key].y;
     }
   }
 
