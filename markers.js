@@ -21,6 +21,15 @@ class Marker {
   }
   
   update() {
+    if (this.name == user.Qt.Ad) {
+      let markerJSON = {
+        "name": this.name,
+        "x": this.pos.x,
+        "y": this.pos.y
+      };
+      updateChild("markers/" + this.name, markerJSON);
+    }
+    
     this.prevPos = createVector(this.pos.x, this.pos.y);
     this.pos.add(this.vel);
     this.vel.mult(0.98);
@@ -38,15 +47,6 @@ class Marker {
       this.pos.x = Math.random(0.1,0.9);
       this.pos.y = Math.random(0.1,0.9);
       this.dragged = false;
-    }
-
-    if (this.name == user.Qt.Ad) {
-      let markerJSON = {
-        "name": this.name,
-        "x": this.pos.x,
-        "y": this.pos.y
-      };
-      updateChild("markers/" + this.name, markerJSON);
     }
 
     if (this.dragged && mouse.released) {
