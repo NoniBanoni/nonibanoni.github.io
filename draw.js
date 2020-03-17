@@ -67,6 +67,18 @@ function draw() {
 
   if (!dataFetched) {
     updateObjects();
+    if (signedIn) {
+      for (let i = 0; i < Object.keys(database.markers).length; i++) {
+        if (Object.keys(database.markers)[i].name == user.Qt.Ad) {
+          return;
+        }
+      }
+      addChild("markers/" + user.Qt.Ad, {
+        "name": user.Qt.Ad,
+        "x": 0.5,
+        "y": 0.5
+      });
+    }
   }
 
   dataFetched = true;

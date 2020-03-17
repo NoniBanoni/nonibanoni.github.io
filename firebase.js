@@ -1,4 +1,5 @@
-ref.ref().on('child_added', function (snapshot) {
+ref.ref().on('child_added', function(snapshot) {
+  console.log(snapshot.key);
   let json = snapshot.val();
   database[snapshot.key] = json;
   if (loaded) {
@@ -6,8 +7,8 @@ ref.ref().on('child_added', function (snapshot) {
   }
 });
 
-ref.ref().on('child_changed', function (snapshot) {
-  console.log("CHANGES");
+ref.ref().on('child_changed', function(snapshot) {
+  console.log(snapshot.key);
   let json = snapshot.val();
   database[snapshot.key] = json;
   if (loaded) {
@@ -15,7 +16,7 @@ ref.ref().on('child_changed', function (snapshot) {
   }
 });
 
-ref.ref().on('child_removed', function (snapshot) {
+ref.ref().on('child_removed', function(snapshot) {
   let json = snapshot.val();
   delete database[snapshot.key];
 });
@@ -35,16 +36,6 @@ function onSignIn(callback) {
   if (callback) {
     user = callback;
     signedIn = true;
-    for (let i = 0; i < Object.keys(database.markers).length; i++) {
-      if (Object.keys(database.markers)[i].name == user.Qt.Ad) {
-        return;
-      }
-    }
-    addChild("markers/" + user.Qt.Ad, {
-      "name": user.Qt.Ad,
-      "x": 0.5,
-      "y": 0.5
-    });
   }
 }
 
