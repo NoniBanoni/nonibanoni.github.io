@@ -38,25 +38,37 @@ function onSignIn(callback) {
 }
 
 function updateObjects() {
-  if (Object.keys(database.markers).length > markers.length) {
-    let len = markers.length;
-    for (let i = Object.keys(database.markers).length - 1; i >= len; i--) {
-      let key = Object.keys(database.markers)[i];
-      markers.push(new Marker(database.markers[key].name, database.markers[key].x, database.markers[key].y));
+  for (let i = 0; i < Object.keys(database.markers).length; i++) {
+    let key = Object.keys(database.markers)[i];
+    let inArray = false;
+    let index = 0;
+    for (let j = 0; j < markers.length; j++) {
+      if (database.markers[key].name == markers[j].name) {
+        inArray = true;
+        index = i;
+      }
     }
-  } else {
-    for (let i = 0; i < Object.keys(database.markers).length; i++) {
-      let key = Object.keys(database.markers)[i];
+    if (inArray) {
       markers[i].pos.x = database.markers[key].x;
       markers[i].pos.y = database.markers[key].y;
+    } else {
+      markers.push(new Marker(database.markers[key].name, database.markers[key].x, database.markers[key].y));
     }
   }
 
-  if (Object.keys(database.rooms).length > rooms.length) {
-    let len = rooms.length;
-    for (let i = Object.keys(database.rooms).length - 1; i >= len; i--) {
-      let key = Object.keys(database.rooms)[i];
-      rooms.push(new Room(database.rooms[key].rects, key));
+  for (let i = 0; i < Object.keys(database.rooms).length; i++) {
+    let key = Object.keys(database.rooms)[i];
+    let inArray = false;
+    let index = 0;
+    for (let j = 0; j < rooms.length; j++) {
+      if (database.rooms[key].name == rooms[j].name) {
+        inArray = true;
+        index = i;
+      }
+    }
+    if (inArray) {
+    } else {
+      rooms.push(new Marker(database.rooms[key].rects, database.rooms[key].name));
     }
   }
 }
