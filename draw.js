@@ -66,14 +66,7 @@ function draw() {
   }
 
   if (!dataFetched) {
-    for (let i = 0; i < Object.keys(database.rooms).length - 1; i++) {
-      let key = Object.keys(database.rooms)[i];
-      rooms.push(new Room(database.rooms[key].rects, key));
-    }
-    for (let i = 0; i < Object.keys(database.markers).length - 1; i++) {
-      let key = Object.keys(database.markers)[i];
-      markers.push(new Marker(database.markers[key].name, database.markers[key].x, database.markers[key].y));
-    }
+    updateObjects();
   }
 
   dataFetched = true;

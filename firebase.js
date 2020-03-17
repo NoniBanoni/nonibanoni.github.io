@@ -1,28 +1,23 @@
 ref.ref().on('child_added', function (snapshot) {
   let json = snapshot.val();
-  database[json.key] = json;
-  if (json.key == "markers" && loaded) {
-    for (let i = 0; i < Object.keys(json).length - 1; i++) {
-      let markerJSON = json[Object.keys(json)[i]];
-      markers.push(new Marker(markerJSON.name, markerJSON.x, markerJSON.y));
-    }
+  database[snapshot.key] = json;
+  if (loaded) {
+    updateObjects();
   }
 });
 
 ref.ref().on('child_changed', function (snapshot) {
+  console.log("CHANGES");
   let json = snapshot.val();
-  database[json.key] = json;
-  if (json.key == "markers" && loaded) {
-    for (let i = 0; i < Object.keys(json).length - 1; i++) {
-      markers[i].pos.x = json[Object.keys(json)[i]].x;
-      markers[i].pos.y = json[Object.keys(json)[i]].y;
-    }
+  database[snapshot.key] = json;
+  if (loaded) {
+    updateObjects();
   }
 });
 
 ref.ref().on('child_removed', function (snapshot) {
   let json = snapshot.val();
-  delete database[json.key];
+  delete database[snapshot.key];
 });
 
 // Database edit functions
@@ -50,5 +45,29 @@ function onSignIn(callback) {
       "x": 0.5,
       "y": 0.5
     });
+  }
+}
+
+function updateObjects() {
+  if (Object.keys(database.markers).length > markers.length) {
+    let len = markers.length;
+    for (let i = Object.keys(database.markers).length - 1; i >= len; i--) {
+      let key = Object.keys(database.markers)[i];
+      markers.push(new Marker(database.markers[key].name, database.markers[key].x, database.markers[key].y));
+    }
+  } else {
+    for (let i = 0; i < Object.keys(database.markers).length; i++) {
+      let key = Object.keys(database.markers)[i];
+      markers[i].x = database.markers[key].x;
+      markers[i].y = database.markers[key].y;
+    }
+  }
+
+  if (Object.keys(database.rooms).length > rooms.length) {
+    let len = rooms.length;
+    for (let i = Object.keys(database.rooms).length - 1; i >= len; i--) {
+      let key = Object.keys(database.rooms)[i];
+      rooms.push(new Room(database.rooms[key].rects, key));
+    }
   }
 }
