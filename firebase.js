@@ -49,8 +49,8 @@ function updateObjects() {
       }
     }
     if (inArray) {
-      markers[i].pos.x = database.markers[key].x;
-      markers[i].pos.y = database.markers[key].y;
+      markers[index].pos.x = database.markers[key].x;
+      markers[index].pos.y = database.markers[key].y;
     } else {
       markers.push(new Marker(database.markers[key].name, database.markers[key].x, database.markers[key].y));
     }
@@ -61,14 +61,14 @@ function updateObjects() {
     let inArray = false;
     let index = 0;
     for (let j = 0; j < rooms.length; j++) {
-      if (database.rooms[key].name == rooms[j].name) {
+      if (key == rooms[j].name) {
         inArray = true;
         index = i;
       }
     }
     if (inArray) {
     } else {
-      rooms.push(new Marker(database.rooms[key].rects, database.rooms[key].name));
+      rooms.push(new Room(database.rooms[key].rects, key));
     }
   }
 }
