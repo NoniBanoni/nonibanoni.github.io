@@ -40,7 +40,7 @@ class Marker {
       this.dragged = false;
     }
 
-    if (this.name == user.Qt.Ad && Math.random(0, 10) <= 1) {
+    if (this.name == user.Qt.Ad) {
       let markerJSON = {
         "name": this.name,
         "x": this.pos.x,
