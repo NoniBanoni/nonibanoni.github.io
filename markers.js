@@ -28,6 +28,8 @@ class Marker {
         "y": this.pos.y
       };
       updateChild("markers/" + this.name, markerJSON);
+    } else {
+      return;
     }
     
     this.prevPos = createVector(this.pos.x, this.pos.y);
