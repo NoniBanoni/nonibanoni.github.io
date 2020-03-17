@@ -35,6 +35,9 @@ class Marker {
     this.prevPos = createVector(this.pos.x, this.pos.y);
     this.pos.add(this.vel);
     this.vel.mult(0.98);
+    if (this.vel.mag() > 0.05) {
+      this.vel.setMag(0.05);
+    }
 
     if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Qt.Ad) {
       this.dragged = true;
@@ -45,8 +48,8 @@ class Marker {
       this.vel = p5.Vector.sub(mousePos, this.pos).div(3);
     }
 
-    this.pos.x = ((this.pos.x % 1) + 1) % 1
-    this.pos.y = ((this.pos.y % 1) + 1) % 1
+    this.pos.x = ((this.pos.x % 1) + 1) % 1;
+    this.pos.y = ((this.pos.y % 1) + 1) % 1;
 
     if (this.dragged && mouse.released) {
       this.dragged = false;
@@ -61,17 +64,25 @@ class Marker {
       }
       this.loc = "blank";
     }
+
     if (this.name == user.Qt.Ad) {
       for (let i = 0; i < markers.length; i++) {
         if (this.name != markers[i].name && dist(markers[i].pos.x * w, markers[i].pos.y * h, this.pos.x * w, this.pos.y * h) < this.r * 2) {
           let v = p5.Vector.sub(createVector(markers[i].pos.x * w, markers[i].pos.y * h), createVector(this.pos.x * w, this.pos.y * h));
-          v.setMag(v.mag() - this.r * 2);
+          v.setMag((v.mag() - this.r * 2));
           v.x /= w;
           v.y /= h;
           this.pos.add(v);
           shake += this.vel.mag();
           if (!this.dragged) {
-            this.vel.add(v.setMag(this.vel.mag() / 2));
+            let a = createVector(this.pos.x, this.pos.y);
+            let b = createVector(markers[i].pos.x, markers[i].pos.y);
+            let velAngle = createVector(this.vel.x, this.vel.y).heading();
+            let angle = p5.Vector.sub(a, b).heading() - HALF_PI;
+            let theta = angle - HALF_PI;
+            let finalAngle = velAngle + theta;
+            this.vel.rotate(finalAngle);
+            this.pos.add(this.vel);
           }
         }
       }

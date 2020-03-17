@@ -49,8 +49,10 @@ function setup() {
 
 // Display everything
 function draw() {
+  background(255);
+  
   push();
-  translate(random(0, shake * 100), random(0, shake * 100));
+  translate(random(-shake * 50, shake * 50), random(-shake * 50, shake * 50));
 
   shake *= 0.8;
 
