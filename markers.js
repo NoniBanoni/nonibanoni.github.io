@@ -35,8 +35,9 @@ class Marker {
     this.prevPos = createVector(this.pos.x, this.pos.y);
     this.pos.add(this.vel);
     this.vel.mult(0.98);
-    if (this.vel.mag() > 0.05) {
-      this.vel.setMag(0.05);
+    
+    if (this.vel.mag() > 0.03) {
+      this.vel.setMag(0.03);
     }
 
     if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Qt.Ad) {
@@ -82,12 +83,12 @@ class Marker {
             let m1 = 0;
             let m2 = 1;
             let v1 = this.vel.mag();
-            let v2 = markers[i].vel.mag();
-
-            let dx1F = (v1 * Math.cos(theta1 - phi) * (m1-m2) + 2*m2*v2*Math.cos(theta2 - phi)) / (m1+m2) * Math.cos(phi) + v1*Math.sin(theta1-phi) * Math.cos(phi+Math.PI/2);
-            let dy1F = (v1 * Math.cos(theta1 - phi) * (m1-m2) + 2*m2*v2*Math.cos(theta2 - phi)) / (m1+m2) * Math.sin(phi) + v1*Math.sin(theta1-phi) * Math.sin(phi+Math.PI/2);
-            let dx2F = (v2 * Math.cos(theta2 - phi) * (m2-m1) + 2*m1*v1*Math.cos(theta1 - phi)) / (m1+m2) * Math.cos(phi) + v2*Math.sin(theta2-phi) * Math.cos(phi+Math.PI/2);
-            let dy2F = (v2 * Math.cos(theta2 - phi) * (m2-m1) + 2*m1*v1*Math.cos(theta1 - phi)) / (m1+m2) * Math.sin(phi) + v2*Math.sin(theta2-phi) * Math.sin(phi+Math.PI/2);
+            let v2 = 0;
+            
+            let dx1F = (v1 * Math.cos(theta1 - phi) * (m1 - m2) + 2 * m2 * v2 * Math.cos(theta2 - phi)) / (m1 + m2) * Math.cos(phi) + v1 * Math.sin(theta1 - phi) * Math.cos(phi + Math.PI / 2);
+            let dy1F = (v1 * Math.cos(theta1 - phi) * (m1 - m2) + 2 * m2 * v2 * Math.cos(theta2 - phi)) / (m1 + m2) * Math.sin(phi) + v1 * Math.sin(theta1 - phi) * Math.sin(phi + Math.PI / 2);
+            let dx2F = (v2 * Math.cos(theta2 - phi) * (m2 - m1) + 2 * m1 * v1 * Math.cos(theta1 - phi)) / (m1 + m2) * Math.cos(phi) + v2 * Math.sin(theta2 - phi) * Math.cos(phi + Math.PI / 2);
+            let dy2F = (v2 * Math.cos(theta2 - phi) * (m2 - m1) + 2 * m1 * v1 * Math.cos(theta1 - phi)) / (m1 + m2) * Math.sin(phi) + v2 * Math.sin(theta2 - phi) * Math.sin(phi + Math.PI / 2);
 
             this.vel.x = dx1F;
             this.vel.y = dy1F;
@@ -97,6 +98,7 @@ class Marker {
         }
       }
     }
+
     if (this.name == user.Qt.Ad && !this.dragged) {
       for (let i = 0; i < rooms.length; i++) {
         if (rooms[i].name == this.loc) {
