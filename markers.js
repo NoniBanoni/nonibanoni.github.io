@@ -66,6 +66,58 @@ class Marker {
       this.loc = "blank";
     }
 
+    if (this.name == user.Qt.Ad && !this.dragged) {
+      bigLoop:
+      for (let i = 0; i < rooms.length; i++) {
+        if (rooms[i].name == this.loc) {
+          for (let j = 0; j < rooms[i].rects.length; j++) {
+            let r = {
+              "x": rooms[i].rects[j].pos.x / w,
+              "y": rooms[i].rects[j].pos.y / h,
+              "w": rooms[i].rects[j].w / w,
+              "h": rooms[i].rects[j].h / h
+            };
+            if (this.pos.x >= r.x && this.pos.y >= r.y && this.pos.x <= r.x + r.w && this.pos.y <= r.y + r.h) {
+              break bigLoop;
+            }
+          }
+          for (let j = 0; j < rooms[i].rects.length; j++) {
+            let r = {
+              "x": rooms[i].rects[j].pos.x / w,
+              "y": rooms[i].rects[j].pos.y / h,
+              "w": rooms[i].rects[j].w / w,
+              "h": rooms[i].rects[j].h / h
+            };
+            if (this.prevPos.x >= r.x && this.prevPos.y >= r.y && this.prevPos.x <= r.x + r.w && this.prevPos.y <= r.y + r.h) {
+              if (intersects(r.x, r.y, r.x + r.w, r.y, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
+                this.pos = createVector(...intersectPoint(r.x, r.y, r.x + r.w, r.y, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
+                this.vel.y *= -1;
+                shake += this.vel.mag();
+                break bigLoop;
+              }
+              if (intersects(r.x + r.w, r.y, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
+                this.pos = createVector(...intersectPoint(r.x + r.w, r.y, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
+                this.vel.x *= -1;
+                shake += this.vel.mag();
+                break bigLoop;
+              }
+              if (intersects(r.x, r.y, r.x, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
+                this.pos = createVector(...intersectPoint(r.x, r.y, r.x, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
+                this.vel.x *= -1;
+                shake += this.vel.mag();
+                break bigLoop;
+              }
+              if (intersects(r.x, r.y + r.h, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
+                this.pos = createVector(...intersectPoint(r.x, r.y + r.h, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
+                this.vel.y *= -1;
+                shake += this.vel.mag();
+                break bigLoop;
+              }
+            }
+          }
+        }
+      }
+    }
     if (this.name == user.Qt.Ad) {
       for (let i = 0; i < markers.length; i++) {
         if (this.name != markers[i].name && dist(markers[i].pos.x * w, markers[i].pos.y * h, this.pos.x * w, this.pos.y * h) < this.r * 2) {
@@ -94,58 +146,6 @@ class Marker {
             this.vel.y = dy1F;
             // ob2.dx = dx2F;
             // ob2.dy = dy2F;
-          }
-        }
-      }
-    }
-
-    if (this.name == user.Qt.Ad && !this.dragged) {
-      for (let i = 0; i < rooms.length; i++) {
-        if (rooms[i].name == this.loc) {
-          for (let j = 0; j < rooms[i].rects.length; j++) {
-            let r = {
-              "x": rooms[i].rects[j].pos.x / w,
-              "y": rooms[i].rects[j].pos.y / h,
-              "w": rooms[i].rects[j].w / w,
-              "h": rooms[i].rects[j].h / h
-            };
-            if (this.pos.x >= r.x && this.pos.y >= r.y && this.pos.x <= r.x + r.w && this.pos.y <= r.y + r.h) {
-              return;
-            }
-          }
-          for (let j = 0; j < rooms[i].rects.length; j++) {
-            let r = {
-              "x": rooms[i].rects[j].pos.x / w,
-              "y": rooms[i].rects[j].pos.y / h,
-              "w": rooms[i].rects[j].w / w,
-              "h": rooms[i].rects[j].h / h
-            };
-            if (this.prevPos.x >= r.x && this.prevPos.y >= r.y && this.prevPos.x <= r.x + r.w && this.prevPos.y <= r.y + r.h) {
-              if (intersects(r.x, r.y, r.x + r.w, r.y, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
-                this.pos = createVector(...intersectPoint(r.x, r.y, r.x + r.w, r.y, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
-                this.vel.y *= -1;
-                shake += this.vel.mag();
-                return;
-              }
-              if (intersects(r.x + r.w, r.y, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
-                this.pos = createVector(...intersectPoint(r.x + r.w, r.y, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
-                this.vel.x *= -1;
-                shake += this.vel.mag();
-                return;
-              }
-              if (intersects(r.x, r.y, r.x, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
-                this.pos = createVector(...intersectPoint(r.x, r.y, r.x, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
-                this.vel.x *= -1;
-                shake += this.vel.mag();
-                return;
-              }
-              if (intersects(r.x, r.y + r.h, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)) {
-                this.pos = createVector(...intersectPoint(r.x, r.y + r.h, r.x + r.w, r.y + r.h, this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y));
-                this.vel.y *= -1;
-                shake += this.vel.mag();
-                return;
-              }
-            }
           }
         }
       }
