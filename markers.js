@@ -69,19 +69,30 @@ class Marker {
       for (let i = 0; i < markers.length; i++) {
         if (this.name != markers[i].name && dist(markers[i].pos.x * w, markers[i].pos.y * h, this.pos.x * w, this.pos.y * h) < this.r * 2) {
           let v = p5.Vector.sub(createVector(markers[i].pos.x * w, markers[i].pos.y * h), createVector(this.pos.x * w, this.pos.y * h));
-          v.setMag((v.mag() - this.r * 2));
+          v.setMag((v.mag() - this.r * 2) - 1);
           v.x /= w;
           v.y /= h;
           this.pos.add(v);
           shake += this.vel.mag();
           if (!this.dragged) {
-            let a = createVector(this.pos.x, this.pos.y);
-            let b = createVector(markers[i].pos.x, markers[i].pos.y);
-            let velAngle = createVector(this.vel.x, this.vel.y).heading();
-            let angle = p5.Vector.sub(a, b).heading() - HALF_PI;
-            let theta = angle - HALF_PI;
-            let finalAngle = velAngle + theta;
-            this.vel.rotate(finalAngle);
+
+            let theta1 = this.vel.heading();
+            let theta2 = markers[i].vel.heading();
+            let phi = Math.atan2(markers[i].pos.y - this.pos.y, markers[i].pos.x - this.pos.x);
+            let m1 = 0;
+            let m2 = 1;
+            let v1 = this.vel.mag();
+            let v2 = markers[i].vel.mag();
+
+            let dx1F = (v1 * Math.cos(theta1 - phi) * (m1-m2) + 2*m2*v2*Math.cos(theta2 - phi)) / (m1+m2) * Math.cos(phi) + v1*Math.sin(theta1-phi) * Math.cos(phi+Math.PI/2);
+            let dy1F = (v1 * Math.cos(theta1 - phi) * (m1-m2) + 2*m2*v2*Math.cos(theta2 - phi)) / (m1+m2) * Math.sin(phi) + v1*Math.sin(theta1-phi) * Math.sin(phi+Math.PI/2);
+            let dx2F = (v2 * Math.cos(theta2 - phi) * (m2-m1) + 2*m1*v1*Math.cos(theta1 - phi)) / (m1+m2) * Math.cos(phi) + v2*Math.sin(theta2-phi) * Math.cos(phi+Math.PI/2);
+            let dy2F = (v2 * Math.cos(theta2 - phi) * (m2-m1) + 2*m1*v1*Math.cos(theta1 - phi)) / (m1+m2) * Math.sin(phi) + v2*Math.sin(theta2-phi) * Math.sin(phi+Math.PI/2);
+
+            this.vel.x = dx1F;
+            this.vel.y = dy1F;
+            // ob2.dx = dx2F;
+            // ob2.dy = dy2F;
           }
         }
       }
