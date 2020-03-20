@@ -32,8 +32,8 @@ class Marker {
       return;
     }
     
-    if (this.vel.mag() > 0.03) {
-      this.vel.setMag(0.03);
+    if (this.vel.mag() > 0.05) {
+      this.vel.setMag(0.05);
     }
 
     this.prevPos = createVector(this.pos.x, this.pos.y);
@@ -126,7 +126,11 @@ class Marker {
           v.x /= w;
           v.y /= h;
           this.pos.add(v);
-          shake += this.vel.mag();
+          if (this.vel.mag() > 0.05) {
+            shake += 0.05;
+          } else {
+            shake += this.vel.mag();
+          }
           if (!this.dragged) {
 
             let theta1 = this.vel.heading();
