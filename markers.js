@@ -38,7 +38,7 @@ class Marker {
 
     this.prevPos = createVector(this.pos.x, this.pos.y);
     this.pos.add(this.vel);
-    //this.vel.mult(0.98);
+    this.vel.mult(0.98);
 
     if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Qt.Ad) {
       this.dragged = true;
