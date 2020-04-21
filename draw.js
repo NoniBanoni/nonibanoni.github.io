@@ -77,12 +77,12 @@ function draw() {
     updateObjects();
     if (signedIn) {
       for (let i = 0; i < Object.keys(database.markers).length; i++) {
-        if (Object.keys(database.markers)[i].name == user.Qt.Ad) {
+        if (Object.keys(database.markers)[i].name == user.Pt.Ad) {
           return;
         }
       }
-      addChild("markers/" + user.Qt.Ad, {
-        "name": user.Qt.Ad,
+      addChild("markers/" + user.Pt.Ad, {
+        "name": user.Pt.Ad,
         "x": 0.5,
         "y": 0.5
       });
