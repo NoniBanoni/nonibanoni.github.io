@@ -54,15 +54,21 @@ class Marker {
 
     if (this.dragged && mouse.released) {
       this.dragged = false;
-      for (let i = 0; i < rooms.length; i++) {
-        for (let j = 0; j < rooms[i].rects.length; j++) {
-          let temp = rooms[i].rects[j];
-          if (this.pos.x >= temp.pos.x / w && this.pos.y >= temp.pos.y / h && this.pos.x <= (temp.pos.x + temp.w) / w && this.pos.y <= (temp.pos.y + temp.h) / h) {
-            this.loc = rooms[i].name;
-            return;
+        for (let i = 0; i < rooms.length; i++) {
+          for (let j = 0; j < rooms[i].rects.length; j++) {
+            let temp = rooms[i].rects[j];
+            if (this.pos.x >= temp.pos.x / w && this.pos.y >= temp.pos.y / h && this.pos.x <= (temp.pos.x + temp.w) / w && this.pos.y <= (temp.pos.y + temp.h) / h) {
+              this.loc = rooms[i].name;
+              let count = 0;
+              for (let i = 0; i<markers.length; i++){
+                if (markers[i].loc == this.loc){
+                  count = count + 1
+                }
+              }   
+              return;
+            }
           }
         }
-      }
       this.loc = "blank";
     }
 
