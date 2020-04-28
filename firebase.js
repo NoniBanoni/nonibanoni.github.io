@@ -49,7 +49,7 @@ function updateObjects() {
       }
     }
     if (inArray) {
-      if (markers[index].name !== user.Qt.Ad) {
+      if (markers[index].name !== user.Pt.Ad) {
         markers[index].pos.x = database.markers[key].x;
         markers[index].pos.y = database.markers[key].y;
       }

@@ -6,7 +6,7 @@ class Marker {
     this.vel = createVector(0, 0);
     this.r = w / 75;
     this.dragged = false;
-    this.loc = "blank";
+     
   }
 
   display() {
@@ -21,7 +21,7 @@ class Marker {
   }
   
   update() {
-    if (this.name == user.Qt.Ad) {
+    if (this.name == user.Pt.Ad) {
       let markerJSON = {
         "name": this.name,
         "x": this.pos.x,
@@ -40,7 +40,7 @@ class Marker {
     this.pos.add(this.vel);
     this.vel.mult(0.98);
 
-    if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Qt.Ad) {
+    if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Pt.Ad) {
       this.dragged = true;
     }
 
@@ -66,7 +66,7 @@ class Marker {
       this.loc = "blank";
     }
 
-    if (this.name == user.Qt.Ad && !this.dragged) {
+    if (this.name == user.Pt.Ad && !this.dragged) {
       bigLoop:
       for (let i = 0; i < rooms.length; i++) {
         if (rooms[i].name == this.loc) {
@@ -118,7 +118,7 @@ class Marker {
         }
       }
     }
-    if (this.name == user.Qt.Ad) {
+    if (this.name == user.Pt.Ad) {
       for (let i = 0; i < markers.length; i++) {
         if (this.name != markers[i].name && dist(markers[i].pos.x * w, markers[i].pos.y * h, this.pos.x * w, this.pos.y * h) < this.r * 2) {
           let v = p5.Vector.sub(createVector(markers[i].pos.x * w, markers[i].pos.y * h), createVector(this.pos.x * w, this.pos.y * h));
