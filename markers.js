@@ -6,6 +6,7 @@ class Marker {
     this.vel = createVector(0, 0);
     this.r = w / 75;
     this.dragged = false;
+    this.prevPos = createVector(0, 0);
      
   }
 
@@ -42,6 +43,7 @@ class Marker {
 
     if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Pt.Ad) {
       this.dragged = true;
+      this.prevPos = createVector(this.pos.x, this.pos,y);
     }
 
     if (this.dragged) {
@@ -58,13 +60,21 @@ class Marker {
           for (let j = 0; j < rooms[i].rects.length; j++) {
             let temp = rooms[i].rects[j];
             if (this.pos.x >= temp.pos.x / w && this.pos.y >= temp.pos.y / h && this.pos.x <= (temp.pos.x + temp.w) / w && this.pos.y <= (temp.pos.y + temp.h) / h) {
-              this.loc = rooms[i].name;
               let count = 0;
-              for (let i = 0; i<markers.length; i++){
+              for (let i = 0; i < markers.length; i++){
                 if (markers[i].loc == this.loc){
-                  count = count + 1
+                  count++;
                 }
-              }   
+              }
+              for (let i = 0; i < Object.keys(database.rooms).length) {
+                if (database.rooms[Object.keys(database.rooms)[i]].name == rooms[i].name) {
+                  if (count < database.rooms[Object.keys(database.rooms)[i]].capacity) {
+                    this.loc = rooms[i].name;
+                  } else {
+                    this.pos = createVector(this.prevPos.x, this.prevPos.y);
+                  }
+                }
+              }
               return;
             }
           }
