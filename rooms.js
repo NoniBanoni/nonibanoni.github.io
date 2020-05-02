@@ -1,11 +1,12 @@
 class Room {
-  constructor(rects, name) {
+  constructor(rects, name, capacity) {
     this.rects = []; // Rects array
     this.max = createVector(0, 0); // Min x and y
     this.min = createVector(Infinity, Infinity); // Max x and y
     this.name = name; // Name of room
     this.center = createVector(0, 0); // Center point of the room
     this.border = 1.5;
+    this.capacity = capacity;
     // Create all Rectangle objects
     for (let i = 0; i < rects.length; i++) {
       // Scale all room dimentions to fit the screen

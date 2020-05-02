@@ -69,8 +69,9 @@ function updateObjects() {
       }
     }
     if (inArray) {
+      
     } else {
-      rooms.push(new Room(database.rooms[key].rects, key));
+      rooms.push(new Room(database.rooms[key].rects, key, database.rooms[key].capacity));
     }
   }
 }

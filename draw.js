@@ -124,7 +124,6 @@ function draw() {
     rooms[i].display();
   }
   for (let i = 0; i < markers.length; i++) {
-    console.log(user.Pt.Ad);
     markers[i].update();
     markers[i].display();
   }

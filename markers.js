@@ -59,17 +59,24 @@ class Marker {
         for (let i = 0; i < rooms.length; i++) {
           for (let j = 0; j < rooms[i].rects.length; j++) {
             let temp = rooms[i].rects[j];
+            let tempRoom = rooms[i];
             if (this.pos.x >= temp.pos.x / w && this.pos.y >= temp.pos.y / h && this.pos.x <= (temp.pos.x + temp.w) / w && this.pos.y <= (temp.pos.y + temp.h) / h) {
-              let loc = rooms[i].name;
-              let count = 0;
-              for (let i = 0; i < markers.length; i++) {
-                if (markers[i].pos.x >= temp.pos.x / w && markers[i].pos.y >= temp.pos.y / h && markers[i].pos.x <= (temp.pos.x + temp.w) / w && markers[i].pos.y <= (temp.pos.y + temp.h) / h) {
-                  count++;
+              let loc = tempRoom.name;
+              let count = -1;
+              for (let k = 0; k < markers.length; k++) {
+                for (let l = 0; l < tempRoom.rects.length; l++) {
+                  let tempRect = tempRoom.rects[l];
+                  if (markers[k].pos.x >= tempRect.pos.x / w && markers[k].pos.y >= tempRect.pos.y / h && markers[k].pos.x <= (tempRect.pos.x + temp.w) / w && markers[k].pos.y <= (tempRect.pos.y + tempRect.h) / h) {
+                    count++;
+                  }
                 }
               }
-              for (let i = 0; i < Object.keys(database.rooms).length; i++) {
-                if (database.rooms[Object.keys(database.rooms)[i]].name == loc) {
-                  if (count < database.rooms[Object.keys(database.rooms)[i]].capacity) {
+              
+              for (let k = 0; k < rooms.length; k++) {
+                if (rooms[k].name == loc) {
+                  console.log("count: " + count);
+                  console.log("cap: " + rooms[k].capacity);
+                  if (count < rooms[k].capacity) {
                     this.loc = loc;
                   } else {
                     this.pos = createVector(this.prevTempPos.x, this.prevTempPos.y);
