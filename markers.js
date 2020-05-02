@@ -6,8 +6,8 @@ class Marker {
     this.vel = createVector(0, 0);
     this.r = w / 75;
     this.dragged = false;
-    this.prevPos = createVector(0, 0);
-     
+    this.prevTempPos = createVector(0, 0);
+    this.loc = "blank";
   }
 
   display() {
@@ -43,7 +43,7 @@ class Marker {
 
     if (mouse.pressed && this.pointOver(mouseX / w, mouseY / h) && this.name == user.Pt.Ad) {
       this.dragged = true;
-      this.prevPos = createVector(this.pos.x, this.pos,y);
+      this.prevTempPos = createVector(this.pos.x, this.pos.y);
     }
 
     if (this.dragged) {
@@ -60,21 +60,24 @@ class Marker {
           for (let j = 0; j < rooms[i].rects.length; j++) {
             let temp = rooms[i].rects[j];
             if (this.pos.x >= temp.pos.x / w && this.pos.y >= temp.pos.y / h && this.pos.x <= (temp.pos.x + temp.w) / w && this.pos.y <= (temp.pos.y + temp.h) / h) {
+              let loc = rooms[i].name;
               let count = 0;
-              for (let i = 0; i < markers.length; i++){
-                if (markers[i].loc == this.loc){
+              for (let i = 0; i < markers.length; i++) {
+                if (markers[i].pos.x >= temp.pos.x / w && markers[i].pos.y >= temp.pos.y / h && markers[i].pos.x <= (temp.pos.x + temp.w) / w && markers[i].pos.y <= (temp.pos.y + temp.h) / h) {
                   count++;
                 }
               }
-              for (let i = 0; i < Object.keys(database.rooms).length) {
-                if (database.rooms[Object.keys(database.rooms)[i]].name == rooms[i].name) {
+              for (let i = 0; i < Object.keys(database.rooms).length; i++) {
+                if (database.rooms[Object.keys(database.rooms)[i]].name == loc) {
                   if (count < database.rooms[Object.keys(database.rooms)[i]].capacity) {
-                    this.loc = rooms[i].name;
+                    this.loc = loc;
                   } else {
-                    this.pos = createVector(this.prevPos.x, this.prevPos.y);
+                    this.pos = createVector(this.prevTempPos.x, this.prevTempPos.y);
+                    return;
                   }
                 }
               }
+              this.loc = loc;
               return;
             }
           }
