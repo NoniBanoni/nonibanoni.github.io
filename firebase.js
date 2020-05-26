@@ -31,8 +31,10 @@ function removeChild(name) {
 }
 
 function onSignIn(callback) {
+  console.log(callback);
   if (callback) {
     user = callback;
+    name = user[Object.keys(user)[2]][Object.keys(user[Object.keys(user)[2]])[1]];
     signedIn = true;
   }
 }
@@ -49,7 +51,7 @@ function updateObjects() {
       }
     }
     if (inArray) {
-      if (markers[index].name !== user.Pt.Ad) {
+      if (markers[index].name !== name) {
         markers[index].pos.x = database.markers[key].x;
         markers[index].pos.y = database.markers[key].y;
       }

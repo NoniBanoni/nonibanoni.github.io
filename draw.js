@@ -2,6 +2,8 @@ let files = {}; // Files
 let database = {}; // Database in json format
 let ref = firebase.database(); // Firebase refrence
 let user;
+let name;
+
 
 let loaded = false; // Is everything loaded?
 let signedIn = false; // Is user signed in?
@@ -77,12 +79,12 @@ function draw() {
     updateObjects();
     if (signedIn) {
       for (let i = 0; i < Object.keys(database.markers).length; i++) {
-        if (Object.keys(database.markers)[i].name == user.Pt.Ad) {
+        if (Object.keys(database.markers)[i].name == name) {
           return;
         }
       }
-      addChild("markers/" + user.Pt.Ad, {
-        "name": user.Pt.Ad,
+      addChild("markers/" + name, {
+        "name": name,
         "x": 0.5,
         "y": 0.5
       });
